@@ -1357,13 +1357,9 @@ In B2B relationships there is a strong need for transactional privacy, i.e., all
 
 Transactional privacy in Open Blockchain is offered by the mechanisms to achieve two properties with respect to non authorized users:
 
-* Transaction anonymity, where the owner of a transaction is hidden among the so called *anonymity set*,
+* Transaction anonymity, where the owner of a transaction is hidden among the so called *anonymity set*, which in Open Blockchain case, is the set of Open Blockchain users.
 
-which in Open Blockchain case, is the set of Open Blockchain users.
-
-* Transaction unlinkability, where two or more transactions of the same user should
-
-not be linked as such.
+* Transaction unlinkability, where two or more transactions of the same user should not be linked as such.
 
 Clearly depending on the context, non-authorized users can be anyone outside the system, or a subset of users.
 
@@ -1478,7 +1474,7 @@ In this implementation the enrollment process for validators is the same as that
 
 *TCA generates TCerts for batch:* Generates key derivation function key, KeyDF_Key, as HMAC(TCA_KDF_Key, EnrollPub_Key). Generates each TCert public key (using TCertPub_Key = EnrollPub_Key + ExpansionValue G, where 384-bit ExpansionValue = HMAC(Expansion_Key, TCertIndex) and 384-bit Expansion_Key = HMAC(KeyDF_Key, “2”)). Generates each AES_Encrypt TCertOwner_EncryptKey(TCertIndex || known padding/parity check vector), where || denotes concatenation and where TCertOwner_EncryptKey is derived as [HMAC(KeyDF_Key, “1”)]<sub>256-bit truncation</sub>.
 
-*Client:* Deriving TCert private key from a TCert in order to be able to deploy or invoke or query: KeyDF_Key and ECert private key need to be pulled from Local Storage. KeyDF_Key is used to derive TCertOwner_EncryptKey as [HMAC(KeyDF_Key, “1”)]256-bit truncation; then TCertOwner_EncryptKey is used to decrypt the TCert field AES_Encrypt TCertOwner_EncryptKey(TCertIndex || known padding/parity check vector); then TCertIndex is used to derive TCert private key: TCertPriv_Key = (EnrollPriv_Key + ExpansionValue) modulo n, where 384-bit ExpansionValue = HMAC(Expansion_Key, TCertIndex) and 384-bit Expansion_Key = HMAC(KeyDF_Key, “2”).
+*Client:* Deriving TCert private key from a TCert in order to be able to deploy or invoke or query: KeyDF_Key and ECert private key need to be pulled from Local Storage. KeyDF_Key is used to derive TCertOwner_EncryptKey as [HMAC(KeyDF_Key, “1”)]<sub>256-bit truncation</sub>; then TCertOwner_EncryptKey is used to decrypt the TCert field AES_Encrypt TCertOwner_EncryptKey(TCertIndex || known padding/parity check vector); then TCertIndex is used to derive TCert private key: TCertPriv_Key = (EnrollPriv_Key + ExpansionValue) modulo n, where 384-bit ExpansionValue = HMAC(Expansion_Key, TCertIndex) and 384-bit Expansion_Key = HMAC(KeyDF_Key, “2”).
 
 #### 4.2.2 Expiration and revocation of certificates
 
