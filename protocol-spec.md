@@ -356,7 +356,7 @@ enum ConfidentialityLevel {
 **Definition of fields:**
 - `type` - The type of the transaction, which is 1 of the following:
 	- `UNDEFINED` - Reserved for future use.
-  - `CHAINCODE_NEW` - Represents the deployment of a new chaincode.
+    - `CHAINCODE_NEW` - Represents the deployment of a new chaincode.
 	- `CHAINCODE_UPDATE` - Reserved for future use.
 	- `CHAINCODE_EXECUTE` - Represents a chaincode function execution that may read and modify the world state.
 	- `CHAINCODE_QUERY` - Represents a chaincode function execution that may only read the world state.
@@ -2629,7 +2629,7 @@ Blockchain Retrieval Response:
 
 * **POST /chaincode**
 
-Use the Chaincode API to deploy, invoke, and query chaincodes. The deploy request requires the client to supply a `path` parameter, pointing to the location of the chaincode in the file system. The response to a deploy request is either a message containing a confirmation of successful chaincode deployment or an error, containing a reason for the failure. It also contains the generated chaincode `name` in the `message` field, which is to be used in subsequent invocation and query transactions to identify the deployed chaincode.
+Use the Chaincode API to deploy, invoke, and query chaincodes. The deploy request requires the client to supply a `path` parameter, pointing to the directory containing the chaincode in the file system. The response to a deploy request is either a message containing a confirmation of successful chaincode deployment or an error, containing a reason for the failure. It also contains the generated chaincode `name` in the `message` field, which is to be used in subsequent invocation and query transactions to uniquely identify the deployed chaincode.
 
 To deploy a chaincode, supply the required ChaincodeSpec payload, defined in section [3.1.2.2](#3122-transaction-specification).
 
@@ -2704,6 +2704,9 @@ POST host:port/chaincode
   "params": {
     "chaincodeSpec": {
     	"type": "GOLANG",
+      "chaincodeID":{
+        "name":"3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
+      },
     	"ctorMsg": {
       	"function":"invoke",
         	"args":["a", "b", "10"]
@@ -2735,6 +2738,9 @@ Invoke Request with security enabled:
   "params": {
     "chaincodeSpec": {
     	"type": "GOLANG",
+      "chaincodeID":{
+        "name":"3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
+      },
     	"ctorMsg": {
       	"function":"invoke",
         	"args":["a", "b", "10"]
@@ -2746,7 +2752,7 @@ Invoke Request with security enabled:
 }
 ```
 
-The query request requires the client to supply a `name` parameter, which was previously returned in the response from the deploy transaction. The response to a query request depends on the chaincode implementation. It will contain a message containing a confirmation of successful execution or an error, containing a reason for the failure. In the case of successful execution, the response will also contain values of requested state variables within the chaincode.
+The query request requires the client to supply a `name` parameter, which was previously returned in the response from the deploy transaction. The response to a query request depends on the chaincode implementation. The response will contain a message containing a confirmation of successful execution or an error, containing a reason for the failure. In the case of successful execution, the response will also contain values of requested state variables within the chaincode.
 
 To invoke a query function within a chaincode, supply the required ChaincodeInvocationSpec defined in section [3.1.2.4](#3124-invoke-transaction).
 
@@ -2760,6 +2766,9 @@ POST host:port/chaincode/
   "params": {
     "chaincodeSpec": {
     	"type": "GOLANG",
+      "chaincodeID":{
+        "name":"3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
+      },
     	"ctorMsg": {
       	"function":"query",
         	"args":["a"]
@@ -2791,9 +2800,9 @@ Query Request with security enabled:
   "params": {
     "chaincodeSpec": {
     	"type": "GOLANG",
-    	"chaincodeID":{
-      	"name":"3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
-    	},
+      "chaincodeID":{
+        "name":"3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
+      },
     	"ctorMsg": {
       	"function":"query",
         	"args":["a"]
