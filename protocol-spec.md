@@ -160,7 +160,7 @@ Techonologically, Open Blockchain is a fabric of blockchain, where Bitcoin could
 Early blockchain technology serves a set of purposes but is often not well-suited for the needs of specific industries. To meet the demands of modern markets, Open Blockchain is based on an industry-focused design that addresses the multiple and varied requirements of specific industry use cases , extending the learning of the pioneers in this field while also addressing issues such as scalability. Open Blockchain provides a new approach to enable permissioned networks, privacy, and confidentially on multiple blockchain networks.
 
 ### 1.3 Terminology
-These terminologies are defined within the limited scope of this specification to help readers understand clearly and precisely the concepts described here.
+The following terminology is defined within the limited scope of this specification to help readers understand clearly and precisely the concepts described here.
 
 **Transaction** is a request to the blockchain to execute a function on the ledger. The function is implemented by a **chaincode**.
 
@@ -168,21 +168,21 @@ These terminologies are defined within the limited scope of this specification t
 
 **Ledger** is a sequence of cryptographically linked blocks, containing transactions and current **world state**.
 
-**World State** Results of executing transactions may be persisted in variables, called world state.
+**World State** is the collection of variables containing the results of executed transactions.
 
-**Chaincode** is an application-level code (a.k.a [smart contract](https://en.wikipedia.org/wiki/Smart_contract)) stored on the ledger part of a transaction. Chaincode runs transactions that may modify the world state.
+**Chaincode** is an application-level code (a.k.a [smart contract](https://en.wikipedia.org/wiki/Smart_contract)) stored on the ledger as a part of a transaction. Chaincode runs transactions that may modify the world state.
 
-**Validating Peer** A computer node on OBC network responsible for running consensus, validating transactions, and maintaining the ledger.
+**Validating Peer** is a computer node on the OBC network responsible for running consensus, validating transactions, and maintaining the ledger.
 
-**Non-validating Peer** A computer node on OBC network functions as a proxy connecting transactors to the neighboring validating peers. Non-validating peer doesn't execute transactions but does verify transactions. It also hosts event stream and REST API service.
+**Non-validating Peer** is a computer node on the OBC network which functions as a proxy connecting transactors to the neighboring validating peers. A non-validating peer doesn't execute transactions but does verify them. It also hosts the event stream server and the REST service.
 
-**Permissioned Ledger** Each entity or node on the blockchain network is required to be a member of the network. Anonymous nodes are not allowed to connect.
+**Permissioned Ledger** is a blockchain network where each entity or node is required to be a member of the network. Anonymous nodes are not allowed to connect.
 
-**Privacy** Transactors need privacy to conceal their identities on the network. While members of the network may examine the transactions, but the transactions can't be linked to the transactor without special privilege.
+**Privacy** is required by the chain transactors to conceal their identities on the network. While members of the network may examine the transactions, the transactions can't be linked to the transactor without special privilege.
 
 **Confidentiality** is the ability to render the transaction content inaccessible to anyone other than the stakeholders of the transaction.
 
-**Auditability** While private transactions are important, business usage of blockchain needs to comply with regulations and make it easy for regulators to investigate transaction records.
+**Auditability** of the blockchain is required, as business usage of blockchain needs to comply with regulations to make it easy for regulators to investigate transaction records.
 
 
 
@@ -191,54 +191,54 @@ These terminologies are defined within the limited scope of this specification t
 Open Blockchain fabric is made up of the core components described in the subsections below.
 
 ### 2.1 Architecture
-The reference architecture is aligned in 3 categories: Membership, Blockchain, and Chaincode services. These categories are a logical structure, not a physical depiction of partitioning of components into separate processes, address spaces or (virtual) machines.
+The reference architecture is aligned in 3 categories: Membership, Blockchain, and Chaincode services. These categories are logical structures, not a physical depiction of partitioning of components into separate processes, address spaces or (virtual) machines.
 
 ![Reference architecture](images/refarch.png)
 
 ### 2.1.1 Membership Services
-Membership provides services for managing identity, privacy, confidentiality and auditability on the network. In a non-permissioned blockchain, participation does not require authorization and all nodes can equally submit transactions and/or attempt to accumulate them into acceptable blocks, i.e. there are no distinctions of roles. Membership services combine elements of Public Key Infrastructure (PKI) and decentralization/consensus to transform a non-permissioned blockchain into a permissioned blockchain. In the latter, entities register in order to acquire long-term identity credentials (enrollment certificates), and may be distinguished according to entity type. In the case of users, such credentials enable the Transaction Certificate Authority (TCA) to issue pseudonymous credentials. Such credentials, i.e., transaction certificates, are used to authorize submitted transactions. Transaction certificates persist on the blockchain, and enable authorized auditors to, in particular, cluster otherwise unlinkable transactions.  
+Membership provides services for managing identity, privacy, confidentiality and auditability on the network. In a non-permissioned blockchain, participation does not require authorization and all nodes can equally submit transactions and/or attempt to accumulate them into acceptable blocks, i.e. there are no distinctions of roles. Membership services combine elements of Public Key Infrastructure (PKI) and decentralization/consensus to transform a non-permissioned blockchain into a permissioned blockchain. In the latter, entities register in order to acquire long-term identity credentials (enrollment certificates), and may be distinguished according to entity type. In the case of users, such credentials enable the Transaction Certificate Authority (TCA) to issue pseudonymous credentials. Such credentials, i.e., transaction certificates, are used to authorize submitted transactions. Transaction certificates persist on the blockchain, and enable authorized auditors to cluster otherwise unlinkable transactions.  
 
 ### 2.1.2 Blockchain Services
 Blockchain services manage the distributed ledger through a peer-to-peer protocol, built on HTTP/2. The data structures are highly optimized to provide the most efficient hash algorithm for maintaining the world state replication. Different consensus (PBFT, Raft, PoW, PoS) may be plugged in and configured per deployment.
 
 ### 2.1.3 Chaincode Services
-Chaincode services provides a secured and lightweight way to sandbox the chaincode execution potentially on the validating nodes. The environment is a “locked down” and secured container along with a set of signed base images containing secure OS and chaincode language, runtime and SDK layers for Go, Java, and Node.js. Other languages can be enabled if required.
+Chaincode services provides a secured and lightweight way to sandbox the chaincode execution on the validating nodes. The environment is a “locked down” and secured container along with a set of signed base images containing secure OS and chaincode language, runtime and SDK layers for Go, Java, and Node.js. Other languages can be enabled if required.
 
 ### 2.1.4 Events
-Validating peers and chaincodes can emit events on the network that applications may listen and take actions on. There is a set of pre-defined events, and chaincodes can generate custom events. Events are consumed by 1 or more event adapters. Adapters may further deliver events using other vehicles such as Web hooks or Kafka.
+Validating peers and chaincodes can emit events on the network that applications may listen for and take actions on. There is a set of pre-defined events, and chaincodes can generate custom events. Events are consumed by 1 or more event adapters. Adapters may further deliver events using other vehicles such as Web hooks or Kafka.
 
 ### 2.1.5 Application Programming Interface (API)
 The primary interface to OBC is a REST API and its variations over Swagger 2.0. The API allows applications to register users, query the blockchain, and to issue transactions. There is a set of APIs specifically for chaincode to interact with the stack to execute transactions and query transaction results.
 
 ### 2.1.6 Command Line Interface (CLI)
-CLI includes a subset of APIs to enable developers to quickly test chaincodes or query for status of transactions. CLI is implemented in Golang and operable on multiple OS platforms.
+CLI includes a subset of the REST API to enable developers to quickly test chaincodes or query for status of transactions. CLI is implemented in Golang and operable on multiple OS platforms.
 
 ### 2.2 Topology
-A deployment of Open Blockchain may consist of a membership services, many validating peers, non-validating peers, and 1 or more applications. All makes up a chain. There can be multiple chains; each has own operating parameters and security concerns.
+A deployment of Open Blockchain may consist of a membership service, many validating peers, non-validating peers, and 1 or more applications. All of these components make up a chain. There can be multiple chains; each one having its own operating parameters and security requirements.
 
 ### 2.2.1 Single Validating Peer
-Functionally, a non-validating peer is a subset of a validating peer; that is, every capability on a non-validating peer may be enabled on a validating peer, so the simplest blockchain network of OBC may consist of a single validating node. This configuration is most appropriate for development environment, where a validating peer may be started up as needed during edit-compile-debug cycle.
+Functionally, a non-validating peer is a subset of a validating peer; that is, every capability on a non-validating peer may be enabled on a validating peer, so the simplest blockchain network of OBC may consist of a single validating peer node. This configuration is most appropriate for a development environment, where a single validating peer may be started up during the edit-compile-debug cycle.
 
 ![Single Validating Peer](images/top-single-peer.png)
 
-A single validating peer doesn't require consensus, so by default, it uses `noops` plugin, which executes transactions as they arrive. This gives the developer an immediate feedback during development.
+A single validating peer doesn't require consensus, and by default uses the `noops` plugin, which executes transactions as they arrive. This gives the developer an immediate feedback during development.
 
 ### 2.2.2 Multiple Validating Peers
-Production or test networks should be made up of multiple validating and non-validating peers as necessary. Non-validating peers can take some workload off the validating peers, such as handling API requests and processing events.
+Production or test networks should be made up of multiple validating and non-validating peers as necessary. Non-validating peers can take workload off the validating peers, such as handling API requests and processing events.
 
 ![Multiple Validating Peers](images/top-multi-peer.png)
 
-The validating peers form a mesh-network (every peer connects to every other peer) to disseminate information. A non-validating peer connects to a neighboring validating peer that it is allowed to connect to. Non-validating peers are optional since applications may communicate directly with validating peers.
+The validating peers form a mesh-network (every validating peer connects to every other validating peer) to disseminate information. A non-validating peer connects to a neighboring validating peer that it is allowed to connect to. Non-validating peers are optional since applications may communicate directly with validating peers.
 
 ### 2.2.3 Multichain
-Each network of validating and non-validating peers makes up a chain. Many chains may be created to address different needs, similar to having multiple Web sites, each serves a different purpose.
+Each network of validating and non-validating peers makes up a chain. Many chains may be created to address different needs, similar to having multiple Web sites, each serving a different purpose.
 
 
 ## 3. Protocol
-Open Blockchain peer-to-peer communication is built on [gRPC](http://www.grpc.io/docs/), which allows bi-directional stream-based messaging. It uses [Protocol Buffers](https://developers.google.com/protocol-buffers) to serialize data structures for  data transfer between peers. Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data. OBC data structures, messages, and services are described using [proto3 language](https://developers.google.com/protocol-buffers/docs/proto3) notation.
+Open Blockchain peer-to-peer communication is built on [gRPC](http://www.grpc.io/docs/), which allows bi-directional stream-based messaging. It uses [Protocol Buffers](https://developers.google.com/protocol-buffers) to serialize data structures for data transfer between peers. Protocol buffers are a language-neutral, platform-neutral and extensible mechanism for serializing structured data. OBC data structures, messages, and services are described using [proto3 language](https://developers.google.com/protocol-buffers/docs/proto3) notation.
 
 ### 3.1 Message
-Messages flowed between nodes are encapsulated by `OpenchainMessage` proto structure, which consists of 4 types: Discovery, Transaction, Synchronization, and Consensus. Each type may define more subtypes embedded in the `payload`.
+Messages passed between nodes are encapsulated by `OpenchainMessage` proto structure, which consists of 4 types: Discovery, Transaction, Synchronization, and Consensus. Each type may define more subtypes embedded in the `payload`.
 
 ```
 message OpenchainMessage {
@@ -302,22 +302,22 @@ message PeerID {
 
 **Definition of fields:**
 
-- `PeerID` is any name given to the peer at start up or defined in config file
-- `PeerEndpoint` describes the endpoint and whether it's a validating or non-validating peer
+- `PeerID` is any name given to the peer at start up or defined in the config file
+- `PeerEndpoint` describes the endpoint and whether it's a validating or a non-validating peer
 - `pkiID` is the cryptographic ID of the peer
 - `address` is host or IP address and port of the peer in the format `ip:port`
-- `blockNumber` is the height of the blockchain the peer current has
+- `blockNumber` is the height of the blockchain the peer currently has
 
-If the block height received upon `DISC_HELLO` is higher than the current block height of the peer, it immediately initiates synchronization protocol to catch up with the network.
+If the block height received upon `DISC_HELLO` is higher than the current block height of the peer, it immediately initiates the synchronization protocol to catch up with the network.
 
-After `DISC_HELLO`, peer sends `DISC_GET_PEERS` periodically to discover any additional peers joining the network. Response to `DISC_GET_PEERS`, a peer sends `DISC_PEERS` with `payload` containing an array of `PeerEndpoint`. Other discovery message types are not used at this point.
+After `DISC_HELLO`, peer sends `DISC_GET_PEERS` periodically to discover any additional peers joining the network. In response to `DISC_GET_PEERS`, a peer sends `DISC_PEERS` with `payload` containing an array of `PeerEndpoint`. Other discovery message types are not used at this point.
 
 ### 3.1.2 Transaction Messages
-There are 3 types of transactions: Deploy, Invoke and Query. Deploy transaction installs the specified chaincode on the chain, invoke and query transactions call a function of a deployed chaincode. Another type in consideration is Create transaction where a deployed chaincode may be instantiated on the chain and is addressable. This type has not been implemented as of this writing.
+There are 3 types of transactions: Deploy, Invoke and Query. A deploy transaction installs the specified chaincode on the chain, while invoke and query transactions call a function of a deployed chaincode. Another type in consideration is Create transaction, where a deployed chaincode may be instantiated on the chain and is addressable. This type has not been implemented as of this writing.
 
 ### 3.1.2.1 Transaction Data Structure
 
-Messages with type `CHAIN_TRANSACTION` or `CHAIN_QUERY` carry in the `payload` a `Transaction` object:
+Messages with type `CHAIN_TRANSACTION` or `CHAIN_QUERY` carry a `Transaction` object in the `payload`:
 
 ```
 message Transaction {
@@ -354,9 +354,9 @@ enum ConfidentialityLevel {
 
 ```
 **Definition of fields:**
-- `type` - The type of transaction, which is 1 of the following:
+- `type` - The type of the transaction, which is 1 of the following:
 	- `UNDEFINED` - Reserved for future use.
-    - `CHAINCODE_NEW` - Represents the deployment of a new chaincode.
+  - `CHAINCODE_NEW` - Represents the deployment of a new chaincode.
 	- `CHAINCODE_UPDATE` - Reserved for future use.
 	- `CHAINCODE_EXECUTE` - Represents a chaincode function execution that may read and modify the world state.
 	- `CHAINCODE_QUERY` - Represents a chaincode function execution that may only read the world state.
@@ -366,16 +366,16 @@ enum ConfidentialityLevel {
 - `metadata` - Bytes defining any associated transaction metadata that the application may use.
 - `uuid` - A unique ID for the transaction.
 - `timestamp` - A timestamp of when the transaction request was received by the peer.
-- `confidentialityLevel` - Level of data confidentiality. There are 2 levels currently. Future releases may define more levels.
-- `nonce` - Used for security
-- `cert` - Certificate of the transactor
-- `signature` - Signature of the transactor
+- `confidentialityLevel` - Level of data confidentiality. There are currently 2 levels. Future releases may define more levels.
+- `nonce` - Used for security.
+- `cert` - Certificate of the transactor.
+- `signature` - Signature of the transactor.
 - `TransactionPayload.payload` - Bytes defining the payload of the transaction. As the payload can be large, only the payload hash is included directly in the transaction message.
 
-More detail on transaction security in section 4.
+More detail on transaction security can be found in section 4.
 
 ### 3.1.2.2 Transaction Specification
-A transaction is always associated with a chaincode specification which defines the chaincode and the execution environment such as language and security context. Currently only golang is supported for writing chaincode; other languages may be added in the future.
+A transaction is always associated with a chaincode specification which defines the chaincode and the execution environment such as language and security context. Currently only Golang is supported for writing chaincode. Other languages may be added in the future.
 
 ```
 message ChaincodeSpec {
@@ -403,10 +403,11 @@ message ChaincodeInput {
     repeated string args  = 2;
 }
 ```
+
 **Definition of fields:**
 - `chaincodeID` - The chaincode source code path and name.
 - `ctorMsg` - Function name and argument parameters to call.
-- `timeout` - Time in millis to execute the transaction.
+- `timeout` - Time in milliseconds to execute the transaction.
 - `confidentialityLevel` - Confidentiality level of this transaction.
 - `secureContext` - Security context of the transactor.
 - `metadata` - Any data the application wants to pass along.
@@ -414,7 +415,7 @@ message ChaincodeInput {
 The peer, receiving the `chaincodeSpec`, wraps it in an appropriate transaction message and broadcasts to the network.
 
 ### 3.1.2.3 Deploy Transaction
-A deploy transaction `type` is `CHAINCODE_NEW` and the payload contains an object of `ChaincodeDeploymentSpec`.
+Transaction `type` of a deploy transaction is `CHAINCODE_NEW` and the payload contains an object of `ChaincodeDeploymentSpec`.
 
 ```
 message ChaincodeDeploymentSpec {
@@ -424,14 +425,15 @@ message ChaincodeDeploymentSpec {
 }
 ```
 **Definition of fields:**
-- `chaincodeSpec` - See section 3.1.2.2 above.
+- `chaincodeSpec` - See section 3.1.2.2, above.
 - `effectiveDate` - Time when the chaincode is ready to accept invocations.
 - `codePackage` - gzip of the chaincode source.
 
-The validating peers always verify the hash of the `codePackage` when deploy the chaincode to make sure the package has not been tampered with since the deploy transaction enterred the network.
+The validating peers always verify the hash of the `codePackage` when they deploy the chaincode to make sure the package has not been tampered with since the deploy transaction entered the network.
 
 ### 3.1.2.4 Invoke Transaction
-An invoke transaction `type` is `CHAINCODE_EXECUTE` and the `payload` contains an object of `ChaincodeInvocationSpec`.
+Transaction `type` of an invoke transaction is `CHAINCODE_EXECUTE` and the `payload` contains an object of `ChaincodeInvocationSpec`.
+
 ```
 message ChaincodeInvocationSpec {
     ChaincodeSpec chaincodeSpec = 1;
@@ -705,23 +707,23 @@ type Chaincode interface {
 The parameters `function` and `args` point to the function implemented by the chaincode that the `Invoke` calls and passes the `args`. Similar behavior for the `Query` function. The `Query` function is not allowed to modify the state of the chaincode; it can only read and calculate the return value as a byte array.
 
 ### 3.3.2.1 Chaincode Deploy
-Upon deployed (chaincode container started), the shim layer sends a one time `REGISTER` message to the validating peer with the `payload` containing the `ChaincodeID`. The validating peer responds with `REGISTERED` or `ERROR` on success or failure respectively. The shim closes the connection and exits if receiving `ERROR`.
+Upon deploy (chaincode container is started), the shim layer sends a one time `REGISTER` message to the validating peer with the `payload` containing the `ChaincodeID`. The validating peer responds with `REGISTERED` or `ERROR` on success or failure respectively. The shim closes the connection and exits if it receives an `ERROR`.
 
-After registration, the validating peer sends `INIT` with the `payload` containing `ChaincodeInput` object. The shim calls `Invoke` function with the parameters from the `ChaincodeInput`, enabling the chaincode to perform any initialization, such as setting up the persistent state.
+After registration, the validating peer sends `INIT` with the `payload` containing a `ChaincodeInput` object. The shim calls the `Invoke` function with the parameters from the `ChaincodeInput`, enabling the chaincode to perform any initialization, such as setting up the persistent state.
 
-The shim responds with `RESPONSE` or `ERROR` message depending on the returned value from the chaincode `Invoke` function. If no errors, the chaincode initialization is complete and is ready to receive Invoke and Query transactions.
+The shim responds with `RESPONSE` or `ERROR` message depending on the returned value from the chaincode `Invoke` function. If there are no errors, the chaincode initialization is complete and is ready to receive Invoke and Query transactions.
 
 ### 3.3.2.2 Chaincode Invoke
-On processing Invoke transaction, the validating peer sends `TRANSACTION` message to the chaincode container shim, which calls the chaincode `Invoke` function, passing the parameters from the `ChaincodeInput` object. The shim responds to the validating peer with `RESPONSE` or `ERROR` message, indicating the completion of the function. If `ERROR`, the `payload` contains the error message generated by the chaincode.
+When processing an invoke transaction, the validating peer sends a `TRANSACTION` message to the chaincode container shim, which in turn calls the chaincode `Invoke` function, passing the parameters from the `ChaincodeInput` object. The shim responds to the validating peer with `RESPONSE` or `ERROR` message, indicating the completion of the function. If `ERROR` is received, the `payload` contains the error message generated by the chaincode.
 
 ### 3.3.2.3 Chaincode Query
-Similar to Invoke transaction, on Query transaction, the validating peer sends `QUERY` message to the chaincode container shim, which call the chaincode `Query` function, passing the parameters from the `ChaincodeInput` object. The `Query` function may return a value or an error, which the shim forwards to the validating peer using `RESPONSE` or `ERROR` message respectively.
+Similar to an invoke transaction, when processing a query, the validating peer sends a `QUERY` message to the chaincode container shim, which in turn calls the chaincode `Query` function, passing the parameters from the `ChaincodeInput` object. The `Query` function may return a state value or an error, which the shim forwards to the validating peer using `RESPONSE` or `ERROR` messages respectively.
 
 ### 3.3.2.4 Chaincode State
-Each chaincode may define its own persistent state variables. For example, a chaincode may create assets such as TVs, cars, stocks using state variables to hold the assets attributes. During `Invoke` function processing, the chaincode may update the state variables, for example, changing an asset owner. A chaincode manipulates the state variables by using the following message types:
+Each chaincode may define its own persistent state variables. For example, a chaincode may create assets such as TVs, cars, or stocks using state variables to hold the assets attributes. During `Invoke` function processing, the chaincode may update the state variables, for example, changing an asset owner. A chaincode manipulates the state variables by using the following message types:
 
 #### PUT_STATE
-Chaincode sends `PUT_STATE` message to persist a key-value pair with the `payload` containing `PutStateInfo` object.
+Chaincode sends a `PUT_STATE` message to persist a key-value pair, with the `payload` containing `PutStateInfo` object.
 
 ```
 message PutStateInfo {
@@ -731,10 +733,10 @@ message PutStateInfo {
 ```
 
 #### GET_STATE
-Chaincode sends `GET_STATE` message to get the value whose key is specified in the `payload`.
+Chaincode sends a `GET_STATE` message to retrieve the value whose key is specified in the `payload`.
 
 #### DEL_STATE
-Chaincode sends `DEL_STATE` message to delete the value whose key is specified in the `payload`.
+Chaincode sends a `DEL_STATE` message to delete the value whose key is specified in the `payload`.
 
 #### RANGE_QUERY_STATE
 Chaincode sends a `RANGE_QUERY_STATE` message to get a range of values. The message `payload` contains a `RangeQueryStateInfo` object.
@@ -746,7 +748,7 @@ message RangeQueryState {
 }
 ```
 
-The `startKey` and `endKey` are inclusive and assumed lexical order. The validating peer responds with `RESPONSE` message whose `payload` is a `RangeQueryStateResponse` object.
+The `startKey` and `endKey` are inclusive and assumed to be in lexical order. The validating peer responds with `RESPONSE` message whose `payload` is a `RangeQueryStateResponse` object.
 
 ```
 message RangeQueryStateResponse {
@@ -767,6 +769,7 @@ message RangeQueryStateNext {
     string ID = 1;
 }
 ```
+
 When the chaincode is finished reading from the range, it should send a `RangeQueryStateClose` message with the ID it wishes to close.
 
 ```
@@ -775,9 +778,8 @@ message RangeQueryStateClose {
 }
 ```
 
-
 #### INVOKE_CHAINCODE
-Chaincode may call another chaincode in the same transaction context by sending a `INVOKE_CHAINCODE` message to the validating peer with the `payload` containing a `ChaincodeSpec` object.
+Chaincode may call another chaincode in the same transaction context by sending an `INVOKE_CHAINCODE` message to the validating peer with the `payload` containing a `ChaincodeSpec` object.
 
 #### QUERY_CHAINCODE
 Chaincode may query another chaincode in the same transaction context by sending a `QUERY_CHAINCODE` message with the `payload` containing a `ChaincodeSpec` object.
@@ -1203,23 +1205,23 @@ The function inspects the `Type` of the incoming `OpenchainMessage`. There are f
 
 
 ### 3.5 Events
-The event framework provide ability to generate and consume predefined and custom events. There are 3 basic components:
-  - Event Stream
-  - Event Adapters
-  - Event Structures
+The event framework provides the ability to generate and consume predefined and custom events. There are 3 basic components:
+  - Event stream
+  - Event adapters
+  - Event structures
 
 #### 3.5.1 Event Stream
-An event stream is a gRPC channel capable of sending and receiving events. Each consumer establishes an event stream to the event framework and expresses the events that it is interested in. Event producer only sends appropriate events to the consumers who connected to the producer over event stream.
+An event stream is a gRPC channel capable of sending and receiving events. Each consumer establishes an event stream to the event framework and expresses the events that it is interested in. the event producer only sends appropriate events to the consumers who have connected to the producer over the event stream.
 
-The Event Stream initializes a buffer and a timeout parameters. The buffer holds the number of events waiting for delivery, and the timeout has 3 options when the buffer is full:
+The event stream initializes the buffer and timeout parameters. The buffer holds the number of events waiting for delivery, and the timeout has 3 options when the buffer is full:
 
 - If timeout is less than 0, drop the newly arriving events
-- If timeout is 0, block on the event till the buffer becomes available
-- If timeout is greater than 0, wait for the specified timeout and drop the event if buffer remains full after timeout
+- If timeout is 0, block on the event until the buffer becomes available
+- If timeout is greater than 0, wait for the specified timeout and drop the event if the buffer remains full after the timeout
 
 
 #### 3.5.1.1 Event Producer
-The event producer exposes a function to send an event, `Send(e *pb.OpenchainEvent)`, `OpenchainEvent` is either pre-defined `Block` or `Generic` events. More events will be defined in the future to include other elements of the fabric.
+The event producer exposes a function to send an event, `Send(e *pb.OpenchainEvent)`, where `OpenchainEvent` is either a pre-defined `Block` or a `Generic` event. More events will be defined in the future to include other elements of the fabric.
 
 ```
 message Generic {
@@ -1227,27 +1229,28 @@ message Generic {
     bytes payload = 2;
 }
 ```
-The `eventType` and `payload` are freely defined by the event producer. For example, JSON data may be used in the `payload`. The `Generic` event may also be emitted by the chaincode or plugins to communicate with the consumers.
+
+The `eventType` and `payload` are freely defined by the event producer. For example, JSON data may be used in the `payload`. The `Generic` event may also be emitted by the chaincode or plugins to communicate with consumers.
 
 #### 3.5.1.2 Event Consumer
-Event Consumer enables external applications to listen to events. Each Event Consumer registers an Event Adapter with the event stream. The consumer framework can be viewed as bridge between the event stream and the Adapter. A typical use of the event consumer framework is:
+The event consumer enables external applications to listen to events. Each event consumer registers an event adapter with the event stream. The consumer framework can be viewed as a bridge between the event stream and the adapter. A typical use of the event consumer framework is:
 
 ```
-        adapter = <adapter supplied by the client application to register and receive events>
-        consumerClient = NewOpenchainEventsClient(<event consumer address>, adapter)
-        consumerClient.Start()
-	    ...
-	    ...
-        consumerClient.Stop()
+adapter = <adapter supplied by the client application to register and receive events>
+consumerClient = NewOpenchainEventsClient(<event consumer address>, adapter)
+consumerClient.Start()
+...
+...
+consumerClient.Stop()
 ```
 
 #### 3.5.2 Event Adapters
-The Event Adapter encapsulates three facets of event stream interaction
-  - provide interested events callback called by the Event Consumer framework at registration time
-  - an interface called by the Event Consumer framework on receipt of an event
-  - an interface called by the Event Consumer framework when the event bus terminates
+The event adapter encapsulates three facets of event stream interaction:
+  - an interface that returns the list of all events of interest
+  - an interface called by the event consumer framework on receipt of an event
+  - an interface called by the event consumer framework when the event bus terminates
 
-The reference implementation provides golang specific language binding.
+The reference implementation provides Golang specific language binding.
 ```
       EventAdapter interface {
          GetInterestedEvents() ([]*ehpb.Interest, error)
@@ -1255,13 +1258,13 @@ The reference implementation provides golang specific language binding.
          Disconnected(err error)
       }
 ```
-Using gRPC as the event bus protocol allows the Event Consumer framework to be ported to different language bindings without affecting the Event Producer framework.
+Using gRPC as the event bus protocol allows the event consumer framework to be ported to different language bindings without affecting the event producer framework.
 
 #### 3.5.3 Event Structure
 
-This section details the messages of the system. Messages are described directly in golang for simplicity.
+This section details the message structures of the event system. Messages are described directly in Golang for simplicity.
 
-The core message used for communication between the Event Consumer and Producer is the OpenchainEvent.
+The core message used for communication between the event consumer and producer is the OpenchainEvent.
 ```
     message OpenchainEvent {
         oneof Event {
@@ -1274,9 +1277,9 @@ The core message used for communication between the Event Consumer and Producer 
        }
     }
 ```
-Per above definition, an event has to be one of "Register", "Block" or "Generic".
+Per the above definition, an event has to be one of `Register`, `Block` or `Generic`.
 
-As mentioned in previous sections, a consumer creates an event bus by establishing a connection with the producer and sending a Register event. The Register event is essentially an array of Interest messages
+As mentioned in the previous sections, a consumer creates an event bus by establishing a connection with the producer and sending a `Register` event. The `Register` event is essentially an array of `Interest` messages declaring the events of interest to the consumer.
 ```
     message Interest {
         enum ResponseType {
@@ -1291,9 +1294,9 @@ As mentioned in previous sections, a consumer creates an event bus by establishi
         ResponseType responseType = 2;
     }
 ```
-Events can be sent directly as PROTOBUF structures or can be sent as JSON structures by specifying the "responseType" appropriately.
+Events can be sent directly as protobuf structures or can be sent as JSON structures by specifying the `responseType` appropriately.
 
-Currently the producer framework can generate a Block or Generic event. A Block is a message used in the Fabric for encapsulating properties of a block in the blockchain
+Currently, the producer framework can generate a `Block` or a `Generic` event. A `Block` is a message used for encapsulating properties of a block in the blockchain.
 
 
 ## 4. Security
@@ -2502,19 +2505,19 @@ Under adverse conditions, a request that diverged between correct replicas may a
 
 The primary interface to OBC is a REST API. The REST API allows applications to register users, query the blockchain, and to issue transactions. A CLI is also provided to cover a subset of the available APIs for development purposes. The CLI enables developers to quickly test chaincodes or query for status of transactions.
 
-Applications interact with a non-validating peer node through the REST API, which will require some form of authentication to ensure the entity has proper privileges. The application is responsible for supplying the appropriate authentication mechanism and the peer node will subsequently sign the outgoing messages with the client identity.
+Applications interact with a non-validating peer node through the REST API, which will require some form of authentication to ensure the entity has proper privileges. The application is responsible for implementing the appropriate authentication mechanism and the peer node will subsequently sign the outgoing messages with the client identity.
 
 ![Reference architecture](images/refarch-api.png) <p>
 The OBC API design covers the categories below, though the implementation is incomplete for some of them in the current release. The [REST API](#62-rest-api) section will describe the APIs currently supported.
 
-*  Identity - Enrollment to get certificates or revoking a certificate
+*  Identity - Enrollment to acquire or to revoke a certificate
 *  Address - Target and source of a transaction
 *  Transaction - Unit of execution on the ledger
 *  Chaincode - Program running on the ledger
 *  Blockchain - Contents of the ledger
-*  Network - Information about the blockchain network
+*  Network - Information about the blockchain peer network
 *  Storage - External store for files or documents
-*  Event Stream - Sub/pub events on blockchain
+*  Event Stream - Sub/pub events on the blockchain
 
 ## 6.1 REST Service
 The Open Blockchain REST service can be enabled (via configuration) on either validating or non-validating peers, but it is recommended to only enabled the REST service on non-validating peers on production networks.
@@ -2535,21 +2538,19 @@ You can work with the OBC REST API through any tool of your choice. For example,
 
 * [Block](#6211-block-api)
   * GET /chain/blocks/{block-id}
-* [Chain](#6212-chain-api)
+* [Blockchain](#6212-blockchain-api)
   * GET /chain
-* [Transactions](#6213-transactions-api)
-  * GET /transactions/{UUID}
-* [Chaincode](#6214-devops-chaincode-api)
+* [Chaincode](#6213-chaincode-api)
   * POST /chaincode
-  * PUT /chaincode/{chaincode-id}
-  * GET /chaincode/{chaincode-id}
-  * DELETE /chaincode/{chaincode-id}
-  * POST /chaincode/{chaincode-id}
-* [Registrar](#6215-registrar-member-services)
+* [Network](#6214-network-api)
+  * GET /network/peers
+* [Registrar](#6215-registrar-api-member-services)
   * POST /registrar
   * GET /registrar/{enrollmentID}
   * DELETE /registrar/{enrollmentID}
   * GET /registrar/{enrollmentID}/ecert
+* [Transactions](#6216-transactions-api)
+  * GET /transactions/{UUID}
 
 #### 6.2.1.1 Block API
 
@@ -2590,7 +2591,7 @@ Block Retrieval Response:
 }
 ```
 
-#### 6.2.1.2 Chain API
+#### 6.2.1.2 Blockchain API
 
 * **GET /chain**
 
@@ -2624,40 +2625,11 @@ Blockchain Retrieval Response:
 }
 ```
 
-#### 6.2.1.3 Transactions API
-
-* **GET /transactions/{UUID}**
-
-Use the Transaction API to retrieve an individual transaction matching the UUID from the blockchain. The returned transaction message is defined in section [3.1.2.1](#3121-transaction-data-structure).
-
-Transaction Retrieval Request:
-```
-GET host:port/transactions/f5978e82-6d8c-47d1-adec-f18b794f570e
-```
-
-Transaction Retrieval Response:
-```
-{
-    "type": 3,
-    "chaincodeID": "EgRteWNj",
-    "payload": "Ch4IARIGEgRteWNjGhIKBmludm9rZRIBYRIBYhICMTA=",
-    "uuid": "f5978e82-6d8c-47d1-adec-f18b794f570e",
-    "timestamp": {
-        "seconds": 1453758316,
-        "nanos": 206716775
-    },
-    "cert": "MIIB/zCCAYWgAwIBAgIBATAKBggqhkjOPQQDAzApMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMQwwCgYDVQQDEwN0Y2EwHhcNMTYwMTI1MjE0MTE3WhcNMTYwNDI0MjE0MTE3WjArMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMQ4wDAYDVQQDEwVsdWthczB2MBAGByqGSM49AgEGBSuBBAAiA2IABC/BBkt8izf6Ew8UDd62EdWFikJhyCPY5VO9Wxq9JVzt3D6nubx2jO5JdfWt49q8V1Aythia50MZEDpmKhtM6z7LHOU1RxuxdjcYDOvkNJo6pX144U4N1J8/D3A+97qZpKN/MH0wDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwEB/wQCMAAwDQYDVR0OBAYEBAECAwQwDwYDVR0jBAgwBoAEAQIDBDA9BgYqAwQFBgcBAf8EMABNbPHZ0e/2EToi0H8mkouuUDwurgBYuUB+vZfeMewBre3wXG0irzMtfwHlfECRDDAKBggqhkjOPQQDAwNoADBlAjAoote5zYFv91lHzpbEwTfJL/+r+CG7oMVFUFuoSlvBSCObK2bDIbNkW4VQ+ZC9GTsCMQC5GCgy2oZdHw/x7XYzG2BiqmRkLRTiCS7vYCVJXLivU65P984HopxW0cEqeFM9co0=",
-    "signature": "MGUCMCIJaCT3YRsjXt4TzwfmD9hg9pxYnV13kWgf7e1hAW5Nar//05kFtpVlq83X+YtcmAIxAK0IQlCgS6nqQzZEGCLd9r7cg1AkQOT/RgoWB8zcaVjh3bCmgYHsoPAPgMsi3TJktg=="
-}
-```
-
-#### 6.2.1.4 Chaincode API
+#### 6.2.1.3 Chaincode API
 
 * **POST /chaincode**
-* **PUT /chaincode/{chaincode-id}**
-* **GET /chaincode/{chaincode-id}**
 
-Use the Chaincode APIs to deploy, invoke, and query chaincodes. The deploy request requires the client to supply a `path` parameter, pointing to the location of the chaincode in the file system. The response to a deploy request is either a message containing a confirmation of successful chaincode deployment or an error, containing a reason for the failure. It also contains the generated chaincode `name` in the `message` field, which is to be used in subsequent invocation and query transactions to identify the deployed chaincode.
+Use the Chaincode API to deploy, invoke, and query chaincodes. The deploy request requires the client to supply a `path` parameter, pointing to the location of the chaincode in the file system. The response to a deploy request is either a message containing a confirmation of successful chaincode deployment or an error, containing a reason for the failure. It also contains the generated chaincode `name` in the `message` field, which is to be used in subsequent invocation and query transactions to identify the deployed chaincode.
 
 To deploy a chaincode, supply the required ChaincodeSpec payload, defined in section [3.1.2.2](#3122-transaction-specification).
 
@@ -2666,23 +2638,31 @@ Deploy Request:
 POST host:port/chaincode
 
 {
-  "type": "GOLANG",
-  "chaincodeID":{
-      "path":"github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example02"
+  "jsonrpc": "2.0",
+  "method": "deploy",
+  "params": {
+    "type": "GOLANG",
+    "chaincodeID":{
+        "path":"github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example02"
+    },
+    "ctorMsg": {
+        "function":"init",
+        "args":["a", "100", "b", "200"]
+    }
   },
-  "ctorMsg": {
-      "function":"init",
-      "args":["a", "100", "b", "200"]
-  }
+  "id": "1"  
 }
-
 ```
 
 Deploy Response:
 ```
 {
-    "OK": "Successfully deployed chainCode.",
-    "message": "3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
+    "jsonrpc": "2.0",
+    "result": {
+        "OK": "Successfully deployed chainCode.",
+        "message": "3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
+    },
+    "id": "1"
 }
 ```
 
@@ -2690,16 +2670,23 @@ With security enabled, modify the required payload to include the `secureContext
 
 Deploy Request with security enabled:
 ```
+POST host:port/chaincode
+
 {
-  "type": "GOLANG",
-  "chaincodeID":{
-      "path":"github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example02"
+  "jsonrpc": "2.0",
+  "method": "deploy",
+  "params": {
+    "type": "GOLANG",
+    "chaincodeID":{
+        "path":"github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example02"
+    },
+    "ctorMsg": {
+        "function":"init",
+        "args":["a", "100", "b", "200"]
+    },
+    "secureContext": "lukas"
   },
-  "ctorMsg": {
-      "function":"init",
-      "args":["a", "100", "b", "200"]
-  },
-  "secureContext": "lukas"
+  "id": "1"  
 }
 ```
 
@@ -2709,23 +2696,32 @@ To invoke a function within a chaincode, supply the required ChaincodeInvocation
 
 Invoke Request:
 ```
-PUT host:port/chaincode/{chaincode-id}
+POST host:port/chaincode
 
 {
-  "chaincodeSpec": {
-  	"type": "GOLANG",
-  	"ctorMsg": {
-    	"function":"invoke",
-      	"args":["a", "b", "10"]
-  	}
-  }
+  "jsonrpc": "2.0",
+  "method": "invoke",
+  "params": {
+    "chaincodeSpec": {
+    	"type": "GOLANG",
+    	"ctorMsg": {
+      	"function":"invoke",
+        	"args":["a", "b", "10"]
+    	}
+    }
+  },
+  "id": "1"  
 }
 ```
 
 Invoke Response:
 ```
 {
-    "OK": "Successfully invoked chainCode."
+    "jsonrpc": "2.0",
+    "result": {
+        "OK": "Successfully invoked chainCode."
+    },
+    "id": "1"
 }
 ```
 
@@ -2734,14 +2730,19 @@ With security enabled, modify the required payload to include the `secureContext
 Invoke Request with security enabled:
 ```
 {
-  "chaincodeSpec": {
-  	"type": "GOLANG",
-  	"ctorMsg": {
-    	"function":"invoke",
-      	"args":["a", "b", "10"]
-  	},
-  	"secureContext": "lukas"
-  }
+  "jsonrpc": "2.0",
+  "method": "invoke",
+  "params": {
+    "chaincodeSpec": {
+    	"type": "GOLANG",
+    	"ctorMsg": {
+      	"function":"invoke",
+        	"args":["a", "b", "10"]
+    	},
+    	"secureContext": "lukas"
+    }
+  },
+  "id": "1"  
 }
 ```
 
@@ -2751,23 +2752,32 @@ To invoke a query function within a chaincode, supply the required ChaincodeInvo
 
 Query Request:
 ```
-GET host:port/chaincode/{chaincode-id}
+POST host:port/chaincode/
 
 {
-  "chaincodeSpec": {
-  	"type": "GOLANG",
-  	"ctorMsg": {
-    	"function":"query",
-      	"args":["a"]
-  	}
-  }
+  "jsonrpc": "2.0",
+  "method": "query",
+  "params": {
+    "chaincodeSpec": {
+    	"type": "GOLANG",
+    	"ctorMsg": {
+      	"function":"query",
+        	"args":["a"]
+    	}
+    }
+  },
+  "id": "1"  
 }
 ```
 
 Query Response:
 ```
 {
-    "OK": "80"
+    "jsonrpc": "2.0",
+    "result": {
+        "OK": "80"
+    },
+    "id": "1"
 }
 ```
 
@@ -2776,21 +2786,75 @@ With security enabled, modify the required payload to include the `secureContext
 Query Request with security enabled:
 ```
 {
-  "chaincodeSpec": {
-  	"type": "GOLANG",
-  	"chaincodeID":{
-    	"name":"3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
-  	},
-  	"ctorMsg": {
-    	"function":"query",
-      	"args":["a"]
-  	},
-  	"secureContext": "lukas"
-  }
+  "jsonrpc": "2.0",
+  "method": "query",
+  "params": {
+    "chaincodeSpec": {
+    	"type": "GOLANG",
+    	"chaincodeID":{
+      	"name":"3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
+    	},
+    	"ctorMsg": {
+      	"function":"query",
+        	"args":["a"]
+    	},
+    	"secureContext": "lukas"
+    }
+  },
+  "id": "1"  
 }
 ```
 
-#### 6.2.1.5 Registrar (member services)
+#### 6.2.1.4 Network API
+
+Use the Network API to retrieve information about the network of peer nodes comprising the blockchain fabric.
+
+The /network/peers endpoint returns a list of all existing network connections for the target peer node. The list includes both validating and non-validating peers. The list of peers is returned as type `PeersMessage`, containing an array of `PeerEndpoint`, defined in section [3.1.1](#311-discovery-messages).
+
+```
+message PeersMessage {
+    repeated PeerEndpoint peers = 1;
+}
+```
+
+Network Request:
+```
+GET host:port/network/peers
+```
+
+Network Response:
+```
+{
+    "peers": [
+        {
+            "ID": {
+                "name": "vp1"
+            },
+            "address": "172.17.0.4:30303",
+            "type": 1,
+            "pkiID": "rUA+vX2jVCXev6JsXDNgNBMX03IV9mHRPWo6h6SI0KLMypBJLd+JoGGlqFgi+eq/"
+        },
+        {
+            "ID": {
+                "name": "vp3"
+            },
+            "address": "172.17.0.5:30303",
+            "type": 1,
+            "pkiID": "OBduaZJ72gmM+B9wp3aErQlofE0ulQfXfTHh377ruJjOpsUn0MyvsJELUTHpAbHI"
+        },
+        {
+            "ID": {
+                "name": "vp2"
+            },
+            "address": "172.17.0.6:30303",
+            "type": 1,
+            "pkiID": "GhtP0Y+o/XVmRNXGF6pcm9KLNTfCZp+XahTBqVRmaIumJZnBpom4ACayVbg4Q/Eb"
+        }
+    ]
+}
+```
+
+#### 6.2.1.5 Registrar API (member services)
 
 * **POST /registrar**
 * **GET /registrar/{enrollmentID}**
@@ -2809,7 +2873,6 @@ message Secret {
 ```
 
 * `enrollId` - Enrollment ID with the certificate authority.
-
 * `enrollSecret` - Enrollment password with the certificate authority.
 
 Enrollment Request:
@@ -2869,7 +2932,7 @@ Remove Enrollment Response:
 }
 ```
 
-The `GET /registrar/{enrollmentID}/ecert` endpoint is used to retrieve the enrollment certificate of a given user from local storage. If the target user has already registered with the CA, the response will include a URL-encoded version of the enrollment certificate. If the target user has not yet registered, an error will be returned. If the client wishes to use the returned enrollment certificate after retrieval, keep in mind that it must be URl-decoded. This can be accomplished with the QueryUnescape method in the "net/url" package.
+The `GET /registrar/{enrollmentID}/ecert` endpoint is used to retrieve the enrollment certificate of a given user from local storage. If the target user has already registered with the CA, the response will include a URL-encoded version of the enrollment certificate. If the target user has not yet registered, an error will be returned. If the client wishes to use the returned enrollment certificate after retrieval, keep in mind that it must be URL-decoded.
 
 Enrollment Certificate Retrieval Request:
 ```
@@ -2880,6 +2943,33 @@ Enrollment Certificate Retrieval Response:
 ```
 {
     "OK": "-----BEGIN+CERTIFICATE-----%0AMIIBzTCCAVSgAwIBAgIBATAKBggqhkjOPQQDAzApMQswCQYDVQQGEwJVUzEMMAoG%0AA1UEChMDSUJNMQwwCgYDVQQDEwNPQkMwHhcNMTYwMTIxMDYzNjEwWhcNMTYwNDIw%0AMDYzNjEwWjApMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMQwwCgYDVQQDEwNP%0AQkMwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAARSLgjGD0omuJKYrJF5ClyYb3sGEGTU%0AH1mombSAOJ6GAOKEULt4L919sbSSChs0AEvTX7UDf4KNaKTrKrqo4khCoboMg1VS%0AXVTTPrJ%2BOxSJTXFZCohVgbhWh6ZZX2tfb7%2BjUDBOMA4GA1UdDwEB%2FwQEAwIHgDAM%0ABgNVHRMBAf8EAjAAMA0GA1UdDgQGBAQBAgMEMA8GA1UdIwQIMAaABAECAwQwDgYG%0AUQMEBQYHAQH%2FBAE0MAoGCCqGSM49BAMDA2cAMGQCMGz2RR0NsJOhxbo0CeVts2C5%0A%2BsAkKQ7v1Llbg78A1pyC5uBmoBvSnv5Dd0w2yOmj7QIwY%2Bn5pkLiwisxWurkHfiD%0AxizmN6vWQ8uhTd3PTdJiEEckjHKiq9pwD%2FGMt%2BWjP7zF%0A-----END+CERTIFICATE-----%0A"
+}
+```
+
+#### 6.2.1.6 Transactions API
+
+* **GET /transactions/{UUID}**
+
+Use the Transaction API to retrieve an individual transaction matching the UUID from the blockchain. The returned transaction message is defined in section [3.1.2.1](#3121-transaction-data-structure).
+
+Transaction Retrieval Request:
+```
+GET host:port/transactions/f5978e82-6d8c-47d1-adec-f18b794f570e
+```
+
+Transaction Retrieval Response:
+```
+{
+    "type": 3,
+    "chaincodeID": "EgRteWNj",
+    "payload": "Ch4IARIGEgRteWNjGhIKBmludm9rZRIBYRIBYhICMTA=",
+    "uuid": "f5978e82-6d8c-47d1-adec-f18b794f570e",
+    "timestamp": {
+        "seconds": 1453758316,
+        "nanos": 206716775
+    },
+    "cert": "MIIB/zCCAYWgAwIBAgIBATAKBggqhkjOPQQDAzApMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMQwwCgYDVQQDEwN0Y2EwHhcNMTYwMTI1MjE0MTE3WhcNMTYwNDI0MjE0MTE3WjArMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMQ4wDAYDVQQDEwVsdWthczB2MBAGByqGSM49AgEGBSuBBAAiA2IABC/BBkt8izf6Ew8UDd62EdWFikJhyCPY5VO9Wxq9JVzt3D6nubx2jO5JdfWt49q8V1Aythia50MZEDpmKhtM6z7LHOU1RxuxdjcYDOvkNJo6pX144U4N1J8/D3A+97qZpKN/MH0wDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwEB/wQCMAAwDQYDVR0OBAYEBAECAwQwDwYDVR0jBAgwBoAEAQIDBDA9BgYqAwQFBgcBAf8EMABNbPHZ0e/2EToi0H8mkouuUDwurgBYuUB+vZfeMewBre3wXG0irzMtfwHlfECRDDAKBggqhkjOPQQDAwNoADBlAjAoote5zYFv91lHzpbEwTfJL/+r+CG7oMVFUFuoSlvBSCObK2bDIbNkW4VQ+ZC9GTsCMQC5GCgy2oZdHw/x7XYzG2BiqmRkLRTiCS7vYCVJXLivU65P984HopxW0cEqeFM9co0=",
+    "signature": "MGUCMCIJaCT3YRsjXt4TzwfmD9hg9pxYnV13kWgf7e1hAW5Nar//05kFtpVlq83X+YtcmAIxAK0IQlCgS6nqQzZEGCLd9r7cg1AkQOT/RgoWB8zcaVjh3bCmgYHsoPAPgMsi3TJktg=="
 }
 ```
 
@@ -2926,7 +3016,7 @@ Some of the available command line arguments for the `obc-peer` command are list
 
 * `-p` - path: identifies chaincode location in the local file system. Must be used as a parameter in the deployment transaction.
 
-* `-u` - username: registration id of a logged in user invoking the transaction.
+* `-u` - username: enrollment ID of a logged in user invoking the transaction.
 
 Not all of the above commands are fully implemented in the current release. The commands that are helpful for chaincode development and debugging and are fully supported are described below.
 
