@@ -614,8 +614,7 @@ An example setup with configuration `{numBuckets=10009 and maxGroupingAtEachLeve
 | 4             | 1001            |
 | 5             | 10009           |
 
-For computing the crypto-hash of the world state, the crypto-hash of each bucket is computed and is assumed to be the crypto-hash of leaf-nodes of the merkle-tree. In order to compute crypto-hash of a bucket, the key-values present in the bucket are first serialized and crypto-hash function is applied on the serialized bytes. For serializing the key-values of a bucket, all the key-values with a common chaincodeID prefix are serialized separately and then appending together, in the
-ascending order of chaincodeIDs. For serializing the key-values of a chaincodeID, the following information is concatenated:
+For computing the crypto-hash of the world state, the crypto-hash of each bucket is computed and is assumed to be the crypto-hash of leaf-nodes of the merkle-tree. In order to compute crypto-hash of a bucket, the key-values present in the bucket are first serialized and crypto-hash function is applied on the serialized bytes. For serializing the key-values of a bucket, all the key-values with a common chaincodeID prefix are serialized separately and then appending together, in the ascending order of chaincodeIDs. For serializing the key-values of a chaincodeID, the following information is concatenated:
    1. Length of chaincodeID (number of bytes in the chaincodeID)
    - The utf8 bytes of the chaincodeID
    - Number of key-values for the chaincodeID
