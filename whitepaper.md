@@ -135,6 +135,7 @@ Figure 2 below shows the reference architecture aligned in three categories: Mem
 Some of these components will be built from the ground up, some will use existing open-source code as appropriate, and some will just interface with existing services to fulfill the required functions.
 
 ![Reference architecture](images/refarch.png)
+
 Figure 2:  Open Blockchain reference architecture
 
 Membership services manages identity, privacy and confidentiality on the network. Participants register to obtain identities, which enables the Attribute Authority to issue security keys for transacting. Reputation Manager enables auditors to view  transactions pertaining to a participant, assuming that each auditor has been granted proper access authority by the participants.
