@@ -137,7 +137,7 @@ message Block {
 }
 ```
 
-For additional information on the Open Blockchain CLI commands, please see the OBC protocol specification section on [CLI](https://github.com/angrbrd/obc-docs/blob/master/protocol-spec.md#63-cli).
+For additional information on the Open Blockchain CLI commands, please see the OBC protocol specification section on [CLI](https://github.com/openblockchain/obc-docs/blob/master/protocol-spec.md#63-cli).
 
 ## Open Blockchain REST API:
 
@@ -237,7 +237,7 @@ message ChaincodeInvocationSpec {
 }
 ```
 
-**Note:** The deploy transaction requires a 'path' parameter to locate the chaincode source-code in the file system, build it, and deploy it to the validating peers. On the other hand, invoke and query transactions require a 'name' parameter to reference the chaincode that has already been deployed. These 'path' and 'name' parameters are specified in the ChaincodeID, defined in [chaincode.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/chaincode.proto). The only exception to the aforementioned rule is when the peer is running in chaincode development mode (as opposed to production mode0), i.e. the user starts the peer with `--peer-chaincodedev` and runs the chaincode manually in a separate terminal window. In that case, the deploy transaction requires a 'name' parameter that is specified by the end user.
+**Note:** The deploy transaction requires a 'path' parameter to locate the chaincode source-code in the file system, build it, and deploy it to the validating peers. On the other hand, invoke and query transactions require a 'name' parameter to reference the chaincode that has already been deployed. These 'path' and 'name' parameters are specified in the ChaincodeID, defined in [chaincode.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/chaincode.proto). The only exception to the aforementioned rule is when the peer is running in chaincode development mode (as opposed to production mode), i.e. the user starts the peer with `--peer-chaincodedev` and runs the chaincode manually in a separate terminal window. In that case, the deploy transaction requires a 'name' parameter that is specified by the end user.
 
 ```
 message ChaincodeID {
@@ -426,7 +426,7 @@ message Transaction {
 }
 ```
 
-For additional information on the Open Blockchain REST endpoints and more detailed examples, please see the OBC protocol specification section on the [REST API](https://github.com/angrbrd/obc-docs/blob/master/protocol-spec.md#62-rest-api).
+For additional information on the Open Blockchain REST endpoints and more detailed examples, please see the OBC protocol specification section on the [REST API](https://github.com/openblockchain/obc-docs/blob/master/protocol-spec.md#62-rest-api).
 
 ### To set up Swagger-UI
 
@@ -545,7 +545,7 @@ You will observe several responses on the console and the program will appear to
 
     ```
     unzip OpenchainSample_2.zip -d OpenchainSample_2
-    cd OpenchainSample_1
+    cd OpenchainSample_2
     ```
 
 5. Run the Node.js app
