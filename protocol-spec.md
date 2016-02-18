@@ -2997,7 +2997,7 @@ You will receive a response similar to below:
 
 ```
     Usage:
-      openchain [command]
+      obc-peer [command]
 
     Available Commands:
       peer        Run openchain peer.
@@ -3012,7 +3012,7 @@ You will receive a response similar to below:
       -h, --help[=false]: help for openchain
 
 
-    Use "openchain [command] --help" for more information about a command.
+    Use "obc-peer [command] --help" for more information about a command.
 ```
 
 Some of the available command line arguments for the `obc-peer` command are listed below:
