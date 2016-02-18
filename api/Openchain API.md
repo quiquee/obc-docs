@@ -4,15 +4,15 @@
 
 This document covers the available APIs for interacting with an Open Blockchain peer node. Three interface choices are provided:
 
-1. [CLI Interface](#open-blockchain-cli)
-2. [REST Interface](#open-blockchain-rest-api)
-3. [Node.js Application](#nodejs)
+1. [CLI](#open-blockchain-cli)
+2. [REST API](#open-blockchain-rest-api)
+3. [Node.js Application](#nodejs-application)
 
 **Note:** If you are working with APIs with security enabled, please review the [security setup instructions](https://github.com/openblockchain/obc-docs/blob/master/api/SandboxSetup.md#security-setup-optional) before proceeding.
 
 ## Open Blockchain CLI:
 
-To view the available CLI commands, execute the following command:
+To view the currently available CLI commands, execute the following:
 
     cd $GOPATH/src/github.com/openblockchain/obc-peer
     ./obc-peer
@@ -21,7 +21,7 @@ You will see output similar to the example below (**NOTE:** rootcommand below is
 
 ```
     Usage:
-      openchain [command]
+      obc-peer [command]
 
     Available Commands:
       peer        Run openchain peer.
@@ -36,12 +36,12 @@ You will see output similar to the example below (**NOTE:** rootcommand below is
       -h, --help[=false]: help for openchain
 
 
-    Use "openchain [command] --help" for more information about a command.
+    Use "obc-peer [command] --help" for more information about a command.
 ```
 
-The `obc-peer` command supports several subcommands as shown above. To
+The `obc-peer` command supports several subcommands, as shown above. To
 facilitate its use in scripted applications, the `obc-peer` command always
-produces a non-0 return code in the event of command failure. Upon success,
+produces a non-zero return code in the event of command failure. Upon success,
 many of the subcommands produce a result on **stdout** as shown in the table
 below:
 
@@ -61,7 +61,7 @@ Command | **stdout** result in the event of success
 
 Deploy creates the docker image for the chaincode and subsequently deploys the package to the validating peer. An example is below.
 
-`./obc-peer chaincode deploy --path=github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example01`
+`./obc-peer chaincode deploy -p github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example02 -c '{"Function":"init", "Args": ["a","100", "b", "200"]}'`
 
 The response to the chaincode deploy command is defined by ChaincodeDeploymentSpec inside [chaincode.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/chaincode.proto).
 
@@ -76,11 +76,11 @@ message ChaincodeDeploymentSpec {
 
 With security enabled, modify the command to include the -u parameter passing the username of a logged in user as follows:
 
-`./obc-peer chaincode deploy -u jim --path=github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example01`
+`./obc-peer chaincode deploy -u jim -p github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example02 -c '{"Function":"init", "Args": ["a","100", "b", "200"]}'`
 
 ### Verify Results
 
-To verify that the block containing the latest transaction has been added to the blockchain, use the `/chain` REST endpoint from the command line. Target the IP of either a validator or a peer node. In the example below, 172.17.0.2 is the IP address of either the validator or the peer node and 5000 is the REST interface port defined in [openchain.yaml](https://github.com/openblockchain/obc-peer/blob/master/openchain.yaml).
+To verify that the block containing the latest transaction has been added to the blockchain, use the `/chain` REST endpoint from the command line. Target the IP address of either a validator or a peer node. In the example below, 172.17.0.2 is the IP address of a validator or a peer node and 5000 is the REST interface port defined in [openchain.yaml](https://github.com/openblockchain/obc-peer/blob/master/openchain.yaml).
 
 `curl 172.17.0.2:5000/chain`
 
@@ -93,7 +93,7 @@ An example of the response is below.
 }
 ```
 
-The returned BlockchainInfo message is defined inside [api.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/api.proto).
+The returned BlockchainInfo message is defined inside [openchain.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/openchain.proto).
 
 ```
 message BlockchainInfo {
@@ -103,15 +103,11 @@ message BlockchainInfo {
 }
 ```
 
-To verify that a specific block is inside the blockchain, use the `/chain/blocks/{Block}` REST endpoint. Likewise, target the IP of either the validator node or the peer node on port 5000.
+To verify that a specific block is inside the blockchain, use the `/chain/blocks/{Block}` REST endpoint. Likewise, target the IP address of either a validator or a peer node on port 5000.
 
 `curl 172.17.0.2:5000/chain/blocks/0`
 
-or preferably
-
-`curl 172.17.0.2:5000/chain/blocks/0 > block_0`
-
-The response to this query will be quite large, on the order of 20Mb, as it contains the encoded payload of the chaincode docker package. It will have the following form:
+The response will have the following form:
 
 ```
 {
@@ -127,7 +123,7 @@ The response to this query will be quite large, on the order of 20Mb, as it cont
 }
 ```
 
-The Block message is defined inside [openchain.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/openchain.proto).
+The returned Block message structure is defined inside [openchain.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/openchain.proto).
 
 ```
 message Block {
@@ -141,11 +137,13 @@ message Block {
 }
 ```
 
+For additional information on the Open Blockchain CLI commands, please see the OBC protocol specification section on [CLI](https://github.com/angrbrd/obc-docs/blob/master/protocol-spec.md#63-cli).
+
 ## Open Blockchain REST API:
 
-You can work with the Open Blockchain REST API through any tool of your choice. For example, the curl command line utility or a browser based client such as the Firefox Rest Client or Chrome Postman. You can likewise trigger REST requests directly through [Swagger](http://swagger.io/). However, until these APIs become public, we ask that you set up the Swagger-UI package locally on your machine instead of uploading them directly to the Swagger service. To set up Swagger locally, follow the instructions [here](#to-set-up-swagger-ui).
+You can work with the Open Blockchain REST API through any tool of your choice. For example, the curl command line utility or a browser based client such as the Firefox Rest Client or Chrome Postman. You can likewise trigger REST requests directly through [Swagger](http://swagger.io/). You can utilize the Swagger service directly or, if you prefer, you can set up Swagger locally by following the instructions [here](#to-set-up-swagger-ui).
 
-**Note:** The Open Blockchain REST interface port is defined as port 5000 inside the [openchain.yaml](https://github.com/openblockchain/obc-peer/blob/master/openchain.yaml). If you are sending REST requests to the peer node from the same machine, use port 5000. If you are sending REST requests through Swagger, the port specified in the Swagger file is port 3000. This is done to emphasize that Swagger will likely not run on the same machine as the peer process or outside Vagrant. In order to send requests from the Swagger-UI or Swagger-Editor interface edit the Swagger file to the port number of your choice.
+**Note:** The Open Blockchain REST interface port is defined as port 5000 in the [openchain.yaml](https://github.com/openblockchain/obc-peer/blob/master/openchain.yaml). If you are sending REST requests to the peer node from inside Vagrant, use port 5000. If you are sending REST requests through Swagger, the port specified in the Swagger file is port 3000. The different port emphasizes that Swagger will likely run outside of Vagrant. To send requests from the Swagger interface, set up port forwarding from host port 3000 to Vagrant port 5000 on your machine, or edit the Swagger configuration file to specify another  port number of your choice.
 
 **Note on test blockchain** If you want to test the REST APIs locally, construct a test blockchain by running the TestServerOpenchain_API_GetBlockCount test implemented inside [api_test.go](https://github.com/openblockchain/obc-peer/blob/master/openchain/api_test.go). This test will create a test blockchain with 5 blocks. Subsequently restart the peer process.
 
@@ -156,7 +154,7 @@ You can work with the Open Blockchain REST API through any tool of your choice. 
 
 ### REST Endpoints
 
-To learn about the Open Blockchain REST API through Swagger, please take a look at the Swagger document [here](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json) and the instructions on how to set up Swagger locally on your machine [here](#to-set-up-swagger-ui).
+To learn about the Open Blockchain REST API through Swagger, please take a look at the Swagger document [here](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json). You can utilize the Swagger service directly or, if you prefer, you can set up Swagger locally by following the instructions [here](#to-set-up-swagger-ui).
 
 * [Block](#block)
   * GET /chain/blocks/{Block}
@@ -196,7 +194,7 @@ message Block {
 
 * **GET /chain**
 
-Use the Chain API to retrieve the current state of the blockchain. The returned BlockchainInfo message is defined inside [api.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/api.proto).
+Use the Chain API to retrieve the current state of the blockchain. The returned BlockchainInfo message is defined inside [openchain.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/openchain.proto).
 
 ```
 message BlockchainInfo {
@@ -239,7 +237,7 @@ message ChaincodeInvocationSpec {
 }
 ```
 
-**Note:** The deploy transaction requires a 'path' parameter to locate, build, and deploy the chaincode. On the other hand, invoke and query transactions require a 'name' parameter. These parameters are specified in the ChaincodeID, defined in [chaincode.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/chaincode.proto). The only exception to this rule is if the peer is running in chaincode development mode, i.e. the user starts the peer with --peer-chaincodedev and runs the chaincode themselves in a separate command line window. In that case, the deploy transaction also requires a 'name' parameter.
+**Note:** The deploy transaction requires a 'path' parameter to locate the chaincode source-code in the file system, build it, and deploy it to the validating peers. On the other hand, invoke and query transactions require a 'name' parameter to reference the chaincode that has already been deployed. These 'path' and 'name' parameters are specified in the ChaincodeID, defined in [chaincode.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/chaincode.proto). The only exception to the aforementioned rule is when the peer is running in chaincode development mode (as opposed to production mode0), i.e. the user starts the peer with `--peer-chaincodedev` and runs the chaincode manually in a separate terminal window. In that case, the deploy transaction requires a 'name' parameter that is specified by the end user.
 
 ```
 message ChaincodeID {
@@ -252,20 +250,22 @@ message ChaincodeID {
 }
 ```
 
-The response to deploy and invoke requests is either a message containing a confirmation of successful execution or an error, containing a reason for the failure. The response to a deployment request also contains the assigned chaincode name, which is to be used in subsequent invocation and query transactions. The response to a query request depends on the chaincode implementation.
-
-An example of a valid ChaincodeSpec message is shown below. The 'path' parameter specifies the location of the chaincode in the filesystem. Eventually, we imagine that the 'path' will represent a location on GitHub.
+An example of a valid ChaincodeSpec message for a deployment transaction is shown below. The 'path' parameter specifies the location of the chaincode in the filesystem. Eventually, we imagine that the 'path' will represent a location on GitHub.
 
 ```
 {
-  "type": "GOLANG",
-  "chaincodeID":{
-      "path":"github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example01",
+    "type": "GOLANG",
+    "chaincodeID":{
+        "path":"github.com/openblockchain/obc-peer/openchain/example/chaincode/chaincode_example02"
+    },
+    "ctorMsg": {
+        "function":"init",
+        "args":["a", "100", "b", "200"]
+    }
   }
-}
 ```
 
-An example of a valid ChaincodeInvocationSpec message is shown below. Consult [chaincode.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/chaincode.proto) for more information.
+An example of a valid ChaincodeInvocationSpec message for an invocation transaction is shown below. Consult [chaincode.proto](https://github.com/openblockchain/obc-peer/blob/master/protos/chaincode.proto) for more information.
 
 ```
 {
@@ -282,7 +282,7 @@ An example of a valid ChaincodeInvocationSpec message is shown below. Consult [c
 }
 ```
 
-With security enabled, modify the payload to include the secureContext element passing the enrollmentID of a logged in user as follows:
+With security enabled, modify each of the above payloads to include the secureContext element, passing the enrollmentID of a logged in user as follows:
 
 ```
 {
@@ -300,7 +300,34 @@ With security enabled, modify the payload to include the secureContext element p
 }
 ```
 
-**Note:** The deployment process will take a little time as the docker image is being created.
+**Note:** The deployment transaction will take a little time as the docker image is being created.
+
+The response to a deploy request is either a message containing a confirmation of successful execution or an error, containing a reason for the failure. The response to a deployment request also contains the assigned chaincode name (hash), which is to be used in subsequent invocation and query transactions. An example is below:
+
+```
+{
+    "OK": "Successfully deployed chainCode.",
+    "message": "3940678a8dff854c5ca4365fe0e29771edccb16b2103578c9d9207fea56b10559b43ff5c3025e68917f5a959f2a121d6b19da573016401d9a028b4211e10b20a"
+}
+```
+
+The response to an invoke request is either a message containing a confirmation of successful execution or an error, containing a reason for the failure. The response to an invoke request also contains the transaction identifier (UUID). An example is below:
+
+```
+{
+    "OK": "Successfully invoked chainCode.",
+    "message": "1ca30d0c-0153-46b4-8826-26dc7cfff852"
+}
+```
+
+The response to a query request depends on the chaincode implementation. It may contain a string formatted value of a state variable, any string message, or not have an output. An example is below:
+
+```
+{
+    "OK": "80"
+}
+
+```
 
 #### Network
 
@@ -363,9 +390,11 @@ The response to the registration request is either a confirmation of successful 
 }
 ```
 
-The GET /registrar/{enrollmentID} endpoint is used to confirm whether a given user is registered with the CA. If so, a confirmation will be returned. Otherwise, an authorization error will result. The DELETE /registrar/{enrollmentID} endpoint is used to delete login tokens for a target user. If the login tokens are deleted successfully, a confirmation will be returned. Otherwise, an authorization error will result. No payload is required for this endpoint.
+The GET /registrar/{enrollmentID} endpoint is used to confirm whether a given user is registered with the CA. If so, a confirmation will be returned. Otherwise, an authorization error will result.
 
-The GET /registrar/{enrollmentID}/ecert endpoint is used to retrieve the enrollment certificate of a given user from local storage. If the target user has already registered with the CA, the response will include a URL-encoded version of the enrollment certificate. If the target user has not yet registered, an error will be returned. If the client wishes to use the returned enrollment certificate after retrieval, keep in mind that it must be URl-decoded. This can be accomplished with the QueryUnescape method in the "net/url" package.
+The DELETE /registrar/{enrollmentID} endpoint is used to delete login tokens for a target user. If the login tokens are deleted successfully, a confirmation will be returned. Otherwise, an authorization error will result. No payload is required for this endpoint.
+
+The GET /registrar/{enrollmentID}/ecert endpoint is used to retrieve the enrollment certificate of a given user from local storage. If the target user has already registered with the CA, the response will include a URL-encoded version of the enrollment certificate. If the target user has not yet registered, an error will be returned. If the client wishes to use the returned enrollment certificate after retrieval, keep in mind that it must be URL-decoded. This can be accomplished with the QueryUnescape method in the "net/url" package.
 
 #### Transactions
 
@@ -397,9 +426,11 @@ message Transaction {
 }
 ```
 
+For additional information on the Open Blockchain REST endpoints and more detailed examples, please see the OBC protocol specification section on the [REST API](https://github.com/angrbrd/obc-docs/blob/master/protocol-spec.md#62-rest-api).
+
 ### To set up Swagger-UI
 
-[Swagger](http://swagger.io/) is a convenient package that allows us to describe and document our API in a single file. The Open Blockchain REST API is described in [rest_api.json](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json). To interact with the peer node directly through the Swagger-UI, please follow the instructions below.
+[Swagger](http://swagger.io/) is a convenient package that allows you to describe and document your REST API in a single file. The Open Blockchain REST API is described in [rest_api.json](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json). To interact with the peer node directly through the Swagger-UI, you can upload the Open Blockchain Swagger definition to the [Swagger service](http://swagger.io/). Alternatively, you may set up a Swagger installation on your machine by following the instructions below.
 
 1. You can use Node.js to serve up the rest_api.json locally. To do so, make sure you have Node.js installed on your local machine. If it is not installed, please download the [Node.js](https://nodejs.org/en/download/) package and install it.
 
@@ -431,7 +462,7 @@ message Transaction {
     ./obc-peer peer
     ```
 
-8. Construct a test blockchain on the local peer node by running the TestServerOpenchain_API_GetBlockCount test implemented inside [api_test.go](https://github.com/openblockchain/obc-peer/blob/master/openchain/api_test.go). This test will create a blockchain with 5 blocks. Subsequently restart the peer process.
+8. If you need to construct a test blockchain on the local peer node, run the the TestServerOpenchain_API_GetBlockCount test implemented inside [api_test.go](https://github.com/openblockchain/obc-peer/blob/master/openchain/api_test.go). This test will create a blockchain with 5 blocks. Subsequently restart the peer process.
 
     ```
     cd /opt/gopath/src/github.com/openblockchain/obc-peer
@@ -440,9 +471,9 @@ message Transaction {
 
 9. Go back to the Swagger-UI interface inside your browser and load the API description. You should now be able to issue queries against the pre-built blockchain directly from Swagger.
 
-## Node.js
+## Node.js Application
 
-You can interface to the obc-peer process from a Node.js application in one of two ways. Both approaches rely on the Swagger API description document, [rest_api.json](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json). Use the approach the you find the most convenient.
+You can interface to the obc-peer process from a Node.js application in one of two ways. Both approaches rely on the Swagger API description document, [rest_api.json](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json). Use the approach that you find the most convenient.
 
 ### [OpenchainSample_1](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/openchain_1.js)
 
@@ -464,7 +495,7 @@ You can interface to the obc-peer process from a Node.js application in one of t
     go test -v -run TestServerOpenchain_API_GetBlockCount github.com/openblockchain/obc-peer/openchain
     ```
 
-4. Set up HTTP server to serve up the Open Blockchain API Swagger doc at a non-public URL:
+4. Set up HTTP server to serve up the Open Blockchain API Swagger doc:
 
     ```
     npm install http-server -g
@@ -527,7 +558,7 @@ You will observe several responses on the console and the program will appear to
 
 If you update the [rest_api.json](https://github.com/angrbrd/obc-peer/blob/master/openchain/rest/rest_api.json) Swagger description, you must regenerate the associated TypeScript file for your Node.js application. The current TypeScript file describing the Open Blockchain API is [api.ts](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/api.ts).
 
-Swagger produces TypeScript files with its Swagger-Editor package. If you would like to use Swagger-Editor before these APIs become public, please set it up locally on your machine. To set up the Swagger-Editor locally please follow the steps below.
+Swagger produces TypeScript files with its Swagger-Editor package. If you would like to use Swagger-Editor, you can upload the Open Blockchain Swagger definition to the [Swagger service](http://swagger.io/). Alternatively, you may set up a Swagger-Editor installation on your machine by following the instructions below.
 
 1. Download the latest version of [Swagger-Editor](https://github.com/swagger-api/swagger-editor).
 2. Unpack .zip
