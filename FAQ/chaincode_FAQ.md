@@ -4,7 +4,7 @@
 ##### Does OBC support smart contract?
 Yes. Chaincode is OBC’s interpretation of the smart contract method/algorithm, with additional features.
 
-Chaincodes are codes deployed on an OBC network, where they are executed and validated by chain validators together during the consensus process. Developers can use chaincodes to develop business contracts, assets, and collectively-manag
+Chaincodes are codes deployed on an OBC network, where they are executed and validated by chain validators together during the consensus process. Developers can use chaincodes to develop business contracts, asset definitions, and collectively-managed decentralized applications
 
 &nbsp;
 ##### How do I create a business contract on OBC?
