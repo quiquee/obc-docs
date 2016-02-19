@@ -11,7 +11,7 @@ This model allows developers to leverage their favorite OS/editors and execute t
 
 ### Prerequisites
 * [Git client](https://git-scm.com/downloads)
-* [Go](https://golang.org/) - 1.5.2 or later
+* [Go](https://golang.org/) - 1.6 or later
 * [Vagrant](https://www.vagrantup.com/) - 1.7.4 or later
 * [VirtualBox](https://www.virtualbox.org/) - 5.0 or later
 * BIOS Enabled Virtualization - Varies based on hardware
