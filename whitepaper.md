@@ -5,10 +5,10 @@
 
 ## Abstract
 
-This paper describes industry use cases that drive the principles behind a new blockchain fabric, and outlines the basic requirements and high-level architecture based on those use cases. The design presented here describes this evolving blockchain fabric, called <b>Open Blockchain</b>, as a protocol for business-to-business and business-to-customer transactions. Based on industry use cases, Open Blockchain allows for compliance with regulations, while supporting the varied requirements that arise when competing businesses work together on the same network. The central elements of this specification (described below) are smart contracts (a.k.a. chaincode), digital assets, record repositories, a decentralized network providing consensus, and cryptographic security. To these blockchain staples, industry requirements for performance, verified identities, private and confidential transactions, and a pluggable consensus model have been added.   
+This paper describes industry use cases that drive the principles behind a new blockchain fabric, and outlines the basic requirements and high-level architecture based on those use cases. The design presented here describes this evolving blockchain fabric, called <b>Open Blockchain (OBC)</b>, as a protocol for business-to-business and business-to-customer transactions. Open Blockchain allows for compliance with regulations, while supporting the varied requirements that arise when competing businesses work together on the same network. The central elements of this specification (described below) are smart contracts (a.k.a. chaincode), digital assets, record repositories, a decentralized consensus-based network, and cryptographic security. To these blockchain staples, industry requirements for performance, verified identities, private and confidential transactions, and a pluggable consensus model have been added.   
 
 
-_For questions regarding terminologies used in OBC, check out our [glossary] (glossary.md)_
+_For questions regarding OBC terminology, check out our [glossary] (glossary.md)_.
 
 &nbsp;
 
@@ -19,19 +19,19 @@ _For questions regarding terminologies used in OBC, check out our [glossary] (gl
 
 Blockchain is a peer-to-peer distributed ledger technology that first gained traction in the financial industry because of its capacity to issue, trade, manage, and service assets efficiently and securely. The distributed ledger makes it easy to create cost-efficient business networks without requiring a central point of control, in marked contrast to the world of SoR (System of Records), where every member in the ecosystem needs to maintain its own ledger system and reconcile transaction updates with one another in inefficient, expensive, and often non-standardized inter-organizational operation flows.  
 
-As the shared ledger concept gains tracking in the business world, blockchain’s added feature – <b>smart contract</b> – is also getting a lot of attention from industry [Eth]. A smart contract is a collection of business rules which are deployed on a blockchain and shared and validated collectively by a group of stakeholders. A smart contract can be very useful in automating business processes in a trusted way by allowing all stakeholders to process and validate contractual rules as a group. Smart contracts in Open Blockchain are implemented by chaincode.
+As the shared ledger concept gains tracking in the business world, blockchain <b>smart contracts</b> are also getting a lot of attention from industry [Eth]. A smart contract is a collection of business rules which are deployed on a blockchain and shared and validated collectively by a group of stakeholders. A smart contract can be very useful in automating business processes in a trusted way by allowing all stakeholders to process and validate contractual rules as a group. In Open Blockchain, smart contracts are implemented by chaincode.
 
-Bitcoin and other cryptocurrencies were designed to resist any censorship, anyone can participate without establishing an identity first, one only has to contribute by spending computation cycles. There is no central authority that controls admission. Such networks have been called permissionless. Through their nature of requiring enormous proof-of-work computations, they are costly to operate [N09].
+Bitcoin and other cryptocurrencies were designed to resist any censorship&emdash;anyone can participate without establishing an identity&emdash;one only has to contribute by spending computation cycles. Under the Bitcoin model of blockchain, there is no central authority that controls admission; these networks have been called permissionless. Through their nature of requiring innumerable proof-of-work computations, they are costly to operate [N09].
 
-Open Blockchain uses a slightly different model and manages the admission of participants at its core. In other words, it is a permissioned shared ledger. This approach wastes less computation cycles, scales much better, and responds to many requirements arising in industrial uses, such as strong identity, auditability, and privacy.
+Open Blockchain takes a novel approach to the traditional blockchain model, in part by managing the admission of participants at its core. In other words, OBC is a permissioned, shared ledger. OBC saves computation cycles, scales well, and responds to the multitude of industrial use case requirements by providing a secure, robust model for identity, auditability and privacy.
 
-Entering 2016, blockchain awareness has now reached the point that the demand for a solution suitable for industry is surging.
+Entering 2016, blockchain awareness has reached the point where demand for an industrial-strength, extensible solution is surging.
 
 &nbsp;
 
-## Why a new fabric:
+## Why a new fabric
 
-Blockchain technology is still in its infancy, and is often not well-suited for the needs of industry. Scalability challenges, and the lack of support for confidential and private transactions, among other issues, make its use infeasible for many important business applications. To meet the demands of modern markets, Open Blockchain is designed for the varied requirements of industry-focused use cases, extending the learning of the pioneers in this field by addressing the existing shortcomings.
+As a fledgling technology, blockchain has fallen short of meeting the multitude of requirements inherent in the complex world of business transactions. Scalability challenges, and the lack of support for confidential and private transactions, among other limitations, make its use unworkable for many business-critical applications. To meet the varied demands of the modern marketplace, Open Blockchain has been designed for a broad array of industry-focused use cases, thereby extending the work of the pioneers in the field by addressing the existing shortcomings.
 
 &nbsp;
 
