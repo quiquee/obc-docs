@@ -473,29 +473,34 @@ For additional information on the Open Blockchain REST endpoints and more detail
 
 ## Node.js Application
 
-You can interface to the obc-peer process from a Node.js application in one of two ways. Both approaches rely on the Swagger API description document, [rest_api.json](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json). Use the approach that you find the most convenient.
+You can interface with the obc-peer process from a Node.js application in one of two ways. Both approaches rely on the Swagger API description document, [rest_api.json](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json). Use the approach that you find the most convenient.
 
 ### [OpenchainSample_1](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/openchain_1.js)
 
-* Demonstrates interfacing with a peer node from a Node.js app.
+* Demonstrates interfacing with a peer node from a Node.js application.
 * Utilizes the Node.js swagger-js plugin: https://github.com/swagger-api/swagger-js
 
 **To run:**
 
 1. Build and install [obc-peer](https://github.com/openblockchain/obc-peer/blob/master/README.md).
 
-2. Run local peer node only (not complete network) with:
+    ```
+    cd $GOPATH/src/github.com/openblockchain/obc-peer
+    go build
+    ```
+
+2. Run a local peer node only (not a complete Open Blockchain network) with:
 
     `./obc-peer peer`
 
-3. Set up a test blockchain data structure (with 5 blocks only) by running a test from within Vagrant as follows.  Subsequently restart the peer process.
+3. Set up a test blockchain data structure (with 5 blocks only) by running a test from within Vagrant as follows. Subsequently restart the peer process.
 
     ```
     cd /opt/gopath/src/github.com/openblockchain/obc-peer
     go test -v -run TestServerOpenchain_API_GetBlockCount github.com/openblockchain/obc-peer/openchain
     ```
 
-4. Set up HTTP server to serve up the Open Blockchain API Swagger doc:
+4. Set up a Node.js HTTP server to serve up the Open Blockchain API Swagger document:
 
     ```
     npm install http-server -g
@@ -503,14 +508,14 @@ You can interface to the obc-peer process from a Node.js application in one of t
     http-server -a 0.0.0.0 -p 5554 --cors
     ```
 
-5. Download [OpenchainSample_1.zip](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/OpenchainSample_1.zip)
+5. Download and unzip [OpenchainSample_1.zip](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/OpenchainSample_1.zip)
 
     ```
     unzip OpenchainSample_1.zip -d OpenchainSample_1
     cd OpenchainSample_1
     ```
 
-6. Update the api_url within [openchain.js](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/openchain_1.js) to the appropriate URL if it is not already the default
+6. Update the api_url variable within [openchain.js](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/openchain_1.js) to the appropriate URL if it is not already the default
 
     `var api_url = 'http://localhost:5554/rest_api.json';`
 
@@ -518,7 +523,7 @@ You can interface to the obc-peer process from a Node.js application in one of t
 
     `node ./openchain.js`
 
-You will observe several responses on the console and the program will appear to hang for a few moments at the end. This is normal, as is it waiting for a build request for a Docker container to complete.
+You will observe several responses on the console and the program will appear to hang for a few moments at the end. This is expected, as is it waiting for the invocation transaction to complete in order to then execute a query. You can take a look at the sample output of the program inside the 'openchain_test' file located inside OpenchainSample_1 directory.
 
 ### [OpenchainSample_2](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/openchain_2.js)
 
