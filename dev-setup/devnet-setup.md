@@ -104,13 +104,13 @@ OPENCHAIN_PEER_ADDRESS=172.17.0.2:30303 ./obc-peer chaincode invoke -u jim -n <n
 We can also run a query to see the current value 'a' has:
 
 ```
-./obc-peer chaincode query -l golang -n <name_value_returned_from_deploy_command> -c '{"Function": "query", "Args": ["a"]}'
+OPENCHAIN_PEER_ADDRESS=172.17.0.2:30303 ./obc-peer chaincode query -l golang -n <name_value_returned_from_deploy_command> -c '{"Function": "query", "Args": ["a"]}'
 ```
 
 With security enabled, modify the command as follows:
 
 ```
-./obc-peer chaincode query -u jim -l golang -n <name_value_returned_from_deploy_command> -c '{"Function": "query", "Args": ["a"]}'
+OPENCHAIN_PEER_ADDRESS=172.17.0.2:30303 ./obc-peer chaincode query -u jim -l golang -n <name_value_returned_from_deploy_command> -c '{"Function": "query", "Args": ["a"]}'
 ```
 
 ### Using Consensus Plugin
