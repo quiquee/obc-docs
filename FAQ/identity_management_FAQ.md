@@ -12,7 +12,7 @@ Finally, like most other modules on OBC, you can always replace the default memb
 
 &nbsp;
 ##### Would its membership service make OBC a centralized solution?
-The only job of a membership service is to issue digital certificates to validated entities. It does not and should not play any role in the transaction validation process, nor should it deploy or trigger chaincodes on networks that they are issuing certificates to, so that the digital assets and codes deployed on a OBC network are still decentrally managed its users
 
-Participants should acquire digital certificates before deploying chaincodes and issuing transactions, so that the role of the membership service can be completely isolated from transaction processing. 
+No, because membership service does not provide, deploy, validate, or execute transactions and business logics. In additoin to that, OBC does not even own a copy of the ledger it is servicing.  
 
+Membership service’s only role is to issue digital certificates to validated entities wish to participate in a OBC network, and it does not aware how and when the certificates it issued are used in one (or many)  OBC networks. 
