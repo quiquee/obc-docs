@@ -473,7 +473,7 @@ For additional information on the Open Blockchain REST endpoints and more detail
 
 ## Node.js Application
 
-You can interface with the obc-peer process from a Node.js application in one of two ways. Both approaches rely on the Swagger API description document, [rest_api.json](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json). Use the approach that you find the most convenient.
+You can interface with the obc-peer process from a Node.js application. One way to accomplish that is by relying on the Swagger API description document, [rest_api.json](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/rest_api.json) and the [swagger-js plugin](https://github.com/swagger-api/swagger-js). Another way to accomplish that relies upon the IBM Blockchain [JS SDK](https://github.com/IBM-Blockchain/ibm-blockchain-js). Use the approach that you find the most convenient.
 
 ### [OpenchainSample_1](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/openchain_1.js)
 
@@ -525,49 +525,11 @@ You can interface with the obc-peer process from a Node.js application in one of
 
 You will observe several responses on the console and the program will appear to hang for a few moments at the end. This is expected, as is it waiting for the invocation transaction to complete in order to then execute a query. You can take a look at the sample output of the program inside the 'openchain_test' file located inside OpenchainSample_1 directory.
 
-### [OpenchainSample_2](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/openchain_2.js)
+### [Marbles Demo](https://github.com/IBM-Blockchain/marbles)
 
 * Demonstrates an alternative way of interfacing with a peer node from a Node.js app.
-* Utilizes the TypeScript description of Open Blockchain REST API generated through the Swagger-Editor.
-* Utilizes the DefinitelyTyped TypeScript definitions manager package: https://github.com/DefinitelyTyped/tsd
+* Demonstrates deploying a Blockchain application as a Bluemix service.
 
-**To run:**
+Hold on to your hats everyone, this application is going to demonstrate transferring marbles between two users leveraging IBM Blockchain. We are going to do this in Node.js and a bit of GoLang. The backend of this application will be the GoLang code running in our blockchain network. The chaincode itself will create a marble by storing it to the chaincode state. The chaincode itself is able to store data as a string in a key/value pair setup. Thus we will stringify JSON objects to store more complex structures.
 
-1. Build and install [obc-peer](https://github.com/openblockchain/obc-peer/blob/master/README.md).
-
-2. Run local peer node only (not complete network) with:
-
-    `./obc-peer peer`
-
-3. Set up a test blockchain data structure (with 5 blocks only) by running a test from within Vagrant as follows. Subsequently restart the peer process.
-
-    ```
-    cd /opt/gopath/src/github.com/openblockchain/obc-peer
-    go test -v -run TestServerOpenchain_API_GetBlockCount github.com/openblockchain/obc-peer/openchain
-    ```
-
-4. Download [OpenchainSample_2.zip](https://github.com/openblockchain/obc-docs/blob/master/api/Openchain%20Samples/OpenchainSample_2.zip)
-
-    ```
-    unzip OpenchainSample_2.zip -d OpenchainSample_2
-    cd OpenchainSample_2
-    ```
-
-5. Run the Node.js app
-
-    `node ./openchain.js`
-
-You will observe several responses on the console and the program will appear to hang for a few moments at the end. This is normal, as is it waiting for a build request for a Docker container to complete.
-
-### To Regenerate TypeScript
-
-If you update the [rest_api.json](https://github.com/angrbrd/obc-peer/blob/master/openchain/rest/rest_api.json) Swagger description, you must regenerate the associated TypeScript file for your Node.js application. The current TypeScript file describing the Open Blockchain API is [api.ts](https://github.com/openblockchain/obc-peer/blob/master/openchain/rest/api.ts).
-
-Swagger produces TypeScript files with its Swagger-Editor package. If you would like to use Swagger-Editor, you can upload the Open Blockchain Swagger definition to the [Swagger service](http://swagger.io/). Alternatively, you may set up a Swagger-Editor installation on your machine by following the instructions below.
-
-1. Download the latest version of [Swagger-Editor](https://github.com/swagger-api/swagger-editor).
-2. Unpack .zip
-3. cd swagger-editor/swagger-editor
-4. http-server -a 0.0.0.0 -p 8000 --cors
-5. Go to the Swagger-Editor in your browser, and import the API description.
-6. Generate the TypeScript file for Node.js from the "Generate Client" menu.
+For more inforation on the IBM Blockchain marbles demo, set-up, and instructions, please visit [this page](https://github.com/IBM-Blockchain/marbles).
