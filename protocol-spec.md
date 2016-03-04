@@ -151,13 +151,13 @@ Open Blockchain is a ledger of digital events, called transactions, shared among
 
 Open Blockchain transactions are secured, private, and confidential. Each participant registers with proof of identity to the network membership services to gain access to the system. Transactions are issued with derived certificates unlinkable to the individual participant, offering a complete anonymity on the network. Transaction content is encrypted with sophisticated key derivation functions to ensure only intended participants may see the content, protecting the confidentiality of the business transactions.
 
-Open Blockchain ledger allows compliance with regulations, and ledger entries are auditable in whole or in part. In collaboration with participants, auditors may obtain time-based certificates to allow viewing the ledger and linking transactions to provide an accurate assessment of the operations.
+Open Blockchain ledger allows compliance with regulations as ledger entries are auditable in whole or in part. In collaboration with participants, auditors may obtain time-based certificates to allow viewing the ledger and linking transactions to provide an accurate assessment of the operations.
 
-Techonologically, Open Blockchain is a fabric of blockchain, where Bitcoin could be a simple application built on Open Blockchain. It is a modular architecture allowing components to be plug-and-play by implementing this protocol specification. It features powerful container technology to host any main stream language for smart contracts development. Leveraging familiar and proven technologies is the motto of the fabric architecture.
+Technologically, Open Blockchain is a fabric of blockchain, where Bitcoin could be a simple application built on Open Blockchain. It is a modular architecture allowing components to be plug-and-play by implementing this protocol specification. It features powerful container technology to host any main stream language for smart contracts development. Leveraging familiar and proven technologies is the motto of the fabric architecture.
 
 ### 1.2 Why Open Blockchain?
 
-Early blockchain technology serves a set of purposes but is often not well-suited for the needs of specific industries. To meet the demands of modern markets, Open Blockchain is based on an industry-focused design that addresses the multiple and varied requirements of specific industry use cases , extending the learning of the pioneers in this field while also addressing issues such as scalability. Open Blockchain provides a new approach to enable permissioned networks, privacy, and confidentially on multiple blockchain networks.
+Early blockchain technology serves a set of purposes but is often not well-suited for the needs of specific industries. To meet the demands of modern markets, Open Blockchain is based on an industry-focused design that addresses the multiple and varied requirements of specific industry use cases , extending the learning of the pioneers in this field while also addressing issues such as scalability. Open Blockchain provides a new approach to enable permissioned networks, privacy, and confidentiallity on multiple blockchain networks.
 
 ### 1.3 Terminology
 The following terminology is defined within the limited scope of this specification to help readers understand clearly and precisely the concepts described here.
@@ -196,7 +196,7 @@ The reference architecture is aligned in 3 categories: Membership, Blockchain, a
 ![Reference architecture](images/refarch.png)
 
 ### 2.1.1 Membership Services
-Membership provides services for managing identity, privacy, confidentiality and auditability on the network. In a non-permissioned blockchain, participation does not require authorization and all nodes can equally submit transactions and/or attempt to accumulate them into acceptable blocks, i.e. there are no distinctions of roles. Membership services combine elements of Public Key Infrastructure (PKI) and decentralization/consensus to transform a non-permissioned blockchain into a permissioned blockchain. In the latter, entities register in order to acquire long-term identity credentials (enrollment certificates), and may be distinguished according to entity type. In the case of users, such credentials enable the Transaction Certificate Authority (TCA) to issue pseudonymous credentials. Such credentials, i.e., transaction certificates, are used to authorize submitted transactions. Transaction certificates persist on the blockchain, and enable authorized auditors to cluster otherwise unlinkable transactions.  
+Membership provides services for managing identity, privacy, confidentiality and auditability on the network. In a non-permissioned blockchain, participation does not require authorization and all nodes can equally submit transactions and hope to accumulate them into acceptable blocks, i.e. there are no distinctions of roles. Membership services combine elements of Public Key Infrastructure (PKI) and decentralization/consensus to transform a non-permissioned blockchain into a permissioned blockchain. In the latter, entities register in order to acquire long-term identity credentials (enrollment certificates), and may be distinguished according to entity type. In the case of users, such credentials enable the Transaction Certificate Authority (TCA) to issue pseudonymous credentials. Such credentials, i.e., transaction certificates, are used to authorize submitted transactions. Transaction certificates persist on the blockchain, and enable authorized auditors to cluster otherwise unlinkable transactions.  
 
 ### 2.1.2 Blockchain Services
 Blockchain services manage the distributed ledger through a peer-to-peer protocol, built on HTTP/2. The data structures are highly optimized to provide the most efficient hash algorithm for maintaining the world state replication. Different consensus (PBFT, Raft, PoW, PoS) may be plugged in and configured per deployment.
@@ -206,12 +206,6 @@ Chaincode services provides a secured and lightweight way to sandbox the chainco
 
 ### 2.1.4 Events
 Validating peers and chaincodes can emit events on the network that applications may listen for and take actions on. There is a set of pre-defined events, and chaincodes can generate custom events. Events are consumed by 1 or more event adapters. Adapters may further deliver events using other vehicles such as Web hooks or Kafka.
-
-### 2.1.5 Application Programming Interface (API)
-The primary interface to OBC is a REST API and its variations over Swagger 2.0. The API allows applications to register users, query the blockchain, and to issue transactions. There is a set of APIs specifically for chaincode to interact with the stack to execute transactions and query transaction results.
-
-### 2.1.6 Command Line Interface (CLI)
-CLI includes a subset of the REST API to enable developers to quickly test chaincodes or query for status of transactions. CLI is implemented in Golang and operable on multiple OS platforms.
 
 ### 2.2 Topology
 A deployment of Open Blockchain may consist of a membership service, many validating peers, non-validating peers, and 1 or more applications. All of these components make up a chain. There can be multiple chains; each one having its own operating parameters and security requirements.
@@ -235,7 +229,7 @@ Each network of validating and non-validating peers makes up a chain. Many chain
 
 
 ## 3. Protocol
-Open Blockchain peer-to-peer communication is built on [gRPC](http://www.grpc.io/docs/), which allows bi-directional stream-based messaging. It uses [Protocol Buffers](https://developers.google.com/protocol-buffers) to serialize data structures for data transfer between peers. Protocol buffers are a language-neutral, platform-neutral and extensible mechanism for serializing structured data. OBC data structures, messages, and services are described using [proto3 language](https://developers.google.com/protocol-buffers/docs/proto3) notation.
+Open Blockchain peer-to-peer communication sample implementation is built on [gRPC](http://www.grpc.io/docs/), which allows bi-directional stream-based messaging. It uses [Protocol Buffers](https://developers.google.com/protocol-buffers) to serialize data structures for data transfer between peers. Protocol buffers are a language-neutral, platform-neutral and extensible mechanism for serializing structured data. OBC data structures, messages, and services are described using [proto3 language](https://developers.google.com/protocol-buffers/docs/proto3) notation.
 
 ### 3.1 Message
 Messages passed between nodes are encapsulated by `OpenchainMessage` proto structure, which consists of 4 types: Discovery, Transaction, Synchronization, and Consensus. Each type may define more subtypes embedded in the `payload`.
@@ -334,7 +328,7 @@ message Transaction {
     bytes chaincodeID = 2;
     bytes payloadHash = 3;
 
-    ConfidentialityLevel confidentialityLevel = 7;
+    ConfidentialityLevel confidentialityLevel = 1;
     bytes nonce = 8;
     bytes cert = 9;
     bytes signature = 10;
@@ -375,7 +369,7 @@ enum ConfidentialityLevel {
 More detail on transaction security can be found in section 4.
 
 ### 3.1.2.2 Transaction Specification
-A transaction is always associated with a chaincode specification which defines the chaincode and the execution environment such as language and security context. Currently only Golang is supported for writing chaincode. Other languages may be added in the future.
+A transaction is always associated with a chaincode specification which defines the chaincode and the execution environment such as language and security context. Currently there is an implemetation that uses Golang for writing chaincode.
 
 ```
 message ChaincodeSpec {
@@ -446,7 +440,7 @@ A query transaction is similar to an invoke transaction, but the message `type` 
 ### 3.1.3 Synchronization Messages
 Synchronization protocol starts with discovery, described above in section 3.1.1, when a peer realizes that it's behind or its current block is not the same with others. A peer broadcasts either `SYNC_GET_BLOCKS`, `SYNC_STATE_GET_SNAPSHOT`, or `SYNC_STATE_GET_DELTAS` and receives `SYNC_BLOCKS`, `SYNC_STATE_SNAPSHOT`, or `SYNC_STATE_DELTAS` respectively.
 
-The installed consensus plugin (e.g. pbft) dictates how synchronization protocol is being applied. Each message is designed for specific situation:
+The installed consensus plugin (e.g. pbft) dictates how synchronization protocol is being applied. Each message is designed for a specific situation:
 
 **SYNC_GET_BLOCKS** requests for a range of contiguous blocks expressed in the message `payload`, which is an object of `SyncBlockRange`.
 ```
@@ -539,7 +533,7 @@ message BlockTransactions {
 * The `previousBlockHash` hash is calculated using the following algorithm.
   1. Serialize the Block message to bytes using the protocol buffer library.
 
-  2. Hash the serialized block message to 512 bits of output using the SHA3 SHAKE256 algorithm as described in [FIPS 202](http://csrc.nist.gov/publications/drafts/fips-202/fips_202_draft.pdf).
+  2. Hash the serialized block message to 512 bits of output using the SHA3 SHAKE256 algorithm as described in [FIPS 202](http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf).
 
 * The `transactionHash` is the root of the transaction merkle tree. Defining the merkle tree implementation is a TODO.
 
@@ -599,7 +593,7 @@ Since the OBC is expected to function under a variety of scenarios leading to di
 
 This method models a *merkle-tree* on top of buckets of a *hash table* in order to compute the crypto-hash of the *world state*.
 
-At the core of this method, the *key-values* of the world state are assumed to be stored in a hash-table that consists of a pre-decided number of buckets (`numBuckets`). A hash function (`hashFunction`) is employed to determine the bucket number that should contain a given key. Please note that the `hashFunction` does not represent a crypto-hash method such as SHA3, rather this is a regular programming languages hash function that decides the bucket number for a given key.
+At the core of this method, the *key-values* of the world state are assumed to be stored in a hash-table that consists of a pre-decided number of buckets (`numBuckets`). A hash function (`hashFunction`) is employed to determine the bucket number that should contain a given key. Please note that the `hashFunction` does not represent a crypto-hash method such as SHA3, rather this is a regular programming language hash function that decides the bucket number for a given key.
 
 For modeling the merkle-tree, the ordered buckets act as leaf nodes of the tree - lowest numbered bucket being the left most leaf node in the tree. For constructing the second-last level of the tree, a pre-decided number of leaf nodes (`maxGroupingAtEachLevel`), starting from left, are grouped together and for each such group, a node is inserted at the second-last level that acts as a common parent for all the leaf nodes in the group. Note that the number of children for the last parent node may be less than `maxGroupingAtEachLevel`. This grouping method of constructing the next higher level is repeated until the root node of the tree is constructed.
 
